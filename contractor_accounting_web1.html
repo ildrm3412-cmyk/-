@@ -1,0 +1,1597 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>حسابداری پیمانکاری</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#f4f6f3;--surface:#fff;--ink:#1b2a29;--muted:#5a6b69;--line:#d6ddd9;--accent:#1d5c58;--accent-ink:#fff;--calc:#edf2ef;--warn:#a23b2c;--ok:#2b7a4b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a19;--surface:#1b2625;--ink:#e5eeed;--muted:#9bb0ad;--line:#2d3d3b;--accent:#62b9b1;--accent-ink:#0c1816;--calc:#223130;--warn:#e58c7b;--ok:#6cc58c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121a19;--surface:#1b2625;--ink:#e5eeed;--muted:#9bb0ad;--line:#2d3d3b;--accent:#62b9b1;--accent-ink:#0c1816;--calc:#223130;--warn:#e58c7b;--ok:#6cc58c;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 14px/1.7 Vazirmatn,Tahoma,Arial,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--surface);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--surface);border-bottom:1px solid var(--line);padding:10px 14px 0}
+h1{margin:0 0 6px;font-size:17px;font-weight:700}
+nav{display:flex;gap:2px;overflow-x:auto}
+nav button{border:0;background:none;color:var(--muted);font:inherit;padding:8px 12px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav button[aria-current="true"]{color:var(--accent);border-color:var(--accent);font-weight:700}
+nav button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+main{padding:14px;max-width:1200px;margin:0 auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.kpi span{display:block;color:var(--muted);font-size:12px}
+.kpi b{font-size:18px;font-weight:700}
+.kpi.debt b{color:var(--warn)}
+.bar{display:flex;align-items:center;gap:8px;margin:0 0 12px;flex-wrap:wrap}
+.bar label{color:var(--muted)}
+.wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{padding:5px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{font-weight:600;font-size:12px;color:var(--muted);background:var(--calc);position:sticky;top:0}
+td.c{background:var(--calc);font-variant-numeric:tabular-nums}
+td input,td select{width:100%;min-width:90px;font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:5px;padding:4px 6px}
+td input.n{text-align:left;direction:ltr;min-width:110px}
+.btn{font:inherit;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);border-radius:6px;padding:6px 12px;cursor:pointer}
+.btn.ghost{background:none;color:var(--accent)}
+.del{border:0;background:none;color:var(--warn);font-size:18px;cursor:pointer}
+.pg{display:inline-block;width:70px;height:8px;background:var(--line);border-radius:4px;vertical-align:middle;margin-inline-start:6px;overflow:hidden}
+.pg i{display:block;height:100%;background:var(--accent)}
+.neg{color:var(--warn);font-weight:600}
+.note{color:var(--muted);font-size:12px;margin:10px 0}
+.empty{padding:22px;text-align:center;color:var(--muted)}
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;max-width:820px;margin:0 auto}
+.sheet h2{text-align:center;margin:0 0 10px}
+.meta{display:flex;justify-content:space-between;gap:12px;margin-bottom:6px;font-weight:600}
+.sign{display:flex;justify-content:space-between;margin-top:70px}
+.sign div{width:190px;border-top:1px solid var(--ink);padding-top:4px;text-align:center}
+:root{--accent-soft:#e0eeeb;--shadow:0 1px 2px rgba(20,40,38,.06),0 6px 18px rgba(20,40,38,.05);--radius:12px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent-soft:#1f3b38;--shadow:0 1px 2px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--accent-soft:#1f3b38;--shadow:0 1px 2px rgba(0,0,0,.4)}
+body{display:flex;align-items:flex-start;min-height:100vh}
+header{flex:none;width:248px;height:calc(100vh - env(safe-area-inset-top,0px));overflow-y:auto;padding:18px 12px;border-bottom:0;border-left:1px solid var(--line)}
+h1{font-size:18px;margin:0 6px 14px;display:flex;align-items:center;gap:8px}
+h1::before{content:"🏗️";font-size:22px}
+nav{flex-direction:column;gap:2px;overflow:visible}
+nav button{text-align:right;width:100%;padding:8px 12px;border:0;border-radius:8px;color:var(--ink);transition:background .15s}
+nav button:hover{background:var(--calc)}
+nav button[aria-current="true"]{background:var(--accent-soft);color:var(--accent);font-weight:700;box-shadow:inset -3px 0 0 var(--accent)}
+.grp{margin:14px 8px 4px;font-size:11px;font-weight:700;color:var(--muted)}
+main{flex:1;min-width:0;max-width:none;margin:0;padding:22px 28px}
+.kpi,.wrap,.sheet{border-radius:var(--radius);box-shadow:var(--shadow)}
+.kpi{border-top:3px solid var(--accent)}
+.kpi.debt{border-top-color:var(--warn)}
+tbody tr:hover td:not(.c){background:var(--accent-soft)}
+td input,td select{border-radius:6px}
+td input:focus,td select:focus{border-color:var(--accent)}
+.btn{border-radius:8px;padding:7px 16px;font-weight:600}
+@media (max-width:820px){body{display:block}header{width:auto;height:auto;position:sticky;top:env(safe-area-inset-top,0px);padding:8px 10px 0;border-left:0;border-bottom:1px solid var(--line);overflow:visible}h1{font-size:16px;margin:0 0 6px}nav{flex-direction:row;overflow-x:auto}nav button{width:auto;white-space:nowrap;box-shadow:none!important;border-radius:8px 8px 0 0}nav button[aria-current="true"]{border-bottom:3px solid var(--accent)}.grp{display:none}main{padding:14px}}
+:root{--bg:#f6f4ef;--surface:#fffefb;--ink:#1a2233;--muted:#6b7385;--line:#e4dfd4;--accent:#1c2b4a;--accent-ink:#f5efe0;--calc:#f1eee6;--accent-soft:#ece6d6;--gold:#b08d4c;--warn:#9c3a2e;--side-bg:#101a2e;--side-ink:#c9d1e0;--side-line:#24314d;--shadow:0 1px 0 rgba(26,34,51,.04),0 8px 24px rgba(26,34,51,.05);--radius:10px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e131d;--surface:#161d2b;--ink:#e9e4d6;--muted:#98a1b3;--line:#262f42;--accent:#d2b074;--accent-ink:#141a28;--calc:#1b2334;--accent-soft:#232c40;--gold:#d2b074;--warn:#e08a79;--side-bg:#0a0f19;--side-ink:#b9c2d3;--side-line:#1b2438;--shadow:none}}
+:root[data-theme="dark"]{--bg:#0e131d;--surface:#161d2b;--ink:#e9e4d6;--muted:#98a1b3;--line:#262f42;--accent:#d2b074;--accent-ink:#141a28;--calc:#1b2334;--accent-soft:#232c40;--gold:#d2b074;--warn:#e08a79;--side-bg:#0a0f19;--side-ink:#b9c2d3;--side-line:#1b2438;--shadow:none}
+*{scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+body::before{background:var(--side-bg)}
+header{background:var(--side-bg);color:var(--side-ink);border-left:0;padding:22px 14px}
+h1{color:#f3ead5;font-size:17px;font-weight:700;letter-spacing:.01em;padding-bottom:14px;margin:0 6px 10px;border-bottom:1px solid var(--side-line)}
+h1::before{content:"◆";font-size:12px;color:var(--gold)}
+nav button{color:var(--side-ink);font-weight:400;padding:7px 12px;border-radius:6px}
+nav button:hover{background:rgba(255,255,255,.06);color:#fff}
+nav button[aria-current="true"]{background:rgba(176,141,76,.16);color:#f3e3bd;box-shadow:inset -3px 0 0 var(--gold);font-weight:600}
+.grp{color:var(--gold);font-size:10.5px;letter-spacing:.06em;margin:18px 8px 6px}
+nav button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline-color:var(--gold)}
+main{padding:28px 34px}
+.kpi{border:1px solid var(--line);border-top:2px solid var(--gold);box-shadow:none}
+.kpi.debt{border-top-color:var(--warn)}
+.kpi span{font-size:11.5px;letter-spacing:.02em}
+.kpi b{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.wrap,.sheet{box-shadow:var(--shadow);border-color:var(--line)}
+th{font-size:11.5px;letter-spacing:.03em;color:var(--muted);background:var(--surface);border-bottom:1px solid var(--ink);font-weight:600;padding:9px 8px}
+td{padding:6px 8px}
+td input,td select{border-color:var(--line);background:var(--surface)}
+td input:focus,td select:focus{border-color:var(--gold)}
+.btn{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);letter-spacing:.01em}
+.btn:hover{filter:brightness(1.18)}
+.btn.ghost{background:transparent;color:var(--accent);border-color:var(--line)}
+.pg{background:var(--line)}
+.pg i{background:linear-gradient(90deg,var(--gold),var(--accent))}
+.sheet h2{border-bottom:2px solid var(--gold);padding-bottom:8px;margin-bottom:16px;letter-spacing:.02em}
+@media (max-width:820px){nav button[aria-current="true"]{border-bottom-color:var(--gold);box-shadow:none}header{border-bottom:0}main{padding:14px}}
+.appbar{display:none}
+nav button{display:flex;align-items:center;gap:10px}
+nav button svg{flex:none;width:18px;height:18px;opacity:.8}
+nav button[aria-current="true"] svg{color:var(--gold);opacity:1}
+.grp{display:flex;align-items:center;gap:8px}
+.grp::after{content:"";flex:1;height:1px;background:var(--side-line)}
+.sub{margin:-6px 6px 12px;font-size:11.5px;color:var(--side-ink);opacity:.7}
+header{width:264px}
+@media (max-width:820px){
+.appbar{display:flex;align-items:center;gap:12px;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--side-bg);color:#f3ead5;padding:10px 14px}
+.appbar button{background:none;border:0;color:inherit;font-size:22px;line-height:1;cursor:pointer;padding:4px 8px;border-radius:6px}
+#apptitle{font-weight:700;font-size:15px}
+header{position:fixed;top:0;bottom:0;right:0;left:auto;width:min(84vw,300px);height:auto;z-index:40;transform:translateX(100%);transition:transform .25s ease;overflow-y:auto;padding:calc(18px + env(safe-area-inset-top,0px)) 12px calc(18px + env(safe-area-inset-bottom,0px))}
+body.nav-open header{transform:none;box-shadow:-12px 0 32px rgba(0,0,0,.35)}
+nav{flex-direction:column;overflow:visible}
+nav button{width:100%;white-space:normal;border-radius:6px}
+nav button[aria-current="true"]{border-bottom:0;box-shadow:inset -3px 0 0 var(--gold)!important;border-radius:6px}
+.grp{display:flex}
+#ov{display:none;position:fixed;inset:0;background:rgba(8,12,20,.5);z-index:30}
+body.nav-open #ov{display:block}
+}
+.banner{padding:12px 16px;border-radius:10px;font-weight:600;margin-bottom:10px}
+.banner.warn{background:rgba(156,58,46,.14);color:var(--warn);border:1px solid var(--warn)}
+.banner.ok{background:rgba(43,122,75,.12);color:var(--ok);border:1px solid var(--ok)}
+#pa{display:none}
+@media print{body.pr{display:block}body.pr>header,body.pr>main,body.pr>.appbar,body.pr>#ov{display:none!important}body.pr #pa{display:block}#pa .wrap{overflow:visible;border:0;box-shadow:none}#pa table{min-width:0;width:100%;font-size:11px}#pa th,#pa td{white-space:normal;border:1px solid #999;padding:3px 5px;color:#000;background:none}#pa th{background:#eee;position:static}#pa .pg{display:none}#pa .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}#pa .kpi{box-shadow:none;border:1px solid #999}#pa .banner{border:1px solid #999;background:none;color:#000}}
+@media print{@page{size:A4 portrait;margin:14mm}header,.noprint,body::before{display:none!important}body{background:#fff;color:#000}main{padding:0}.sheet{border:0;padding:0}.wrap{border:0;overflow:visible}th{position:static;background:#eee!important;color:#000}td.c{background:none}}
+</style>
+</head>
+<body>
+<header><h1>حسابداری پیمانکاری</h1><nav id="nav" aria-label="بخش‌ها"></nav></header>
+<main id="main"></main>
+<script>
+var KEY = 'contractor-accounting-v1';
+var PAY_TYPES = ['پیش‌پرداخت','علی‌الحساب','تسویه صورت‌وضعیت','آزادسازی حسن انجام کار'];
+var METHODS = ['حواله بانکی','چک','نقد'];
+function sample() {
+  return {
+    vat: 10, tab: 'home',
+    projects: [{code:'P-001', name:'برج مسکونی نمونه', client:'شرکت کارفرمای نمونه', amount:120000000000}],
+    contractors: [{code:'C-01', person:'E-0003', name:'پیمانکار سازه نمونه', nid:'10101234567', phone:'021-00000000'},
+                  {code:'C-03', name:'ماسه‌شویی نمونه', nid:'10105555555', phone:'021-33333333'}],
+    contracts: [{no:'CN-001', project:'P-001', contractor:'C-01', subject:'اجرای اسکلت بتنی', amount:50000000000, pp:10, ret:10, ins:5, tax:0},
+                {no:'007/الف', project:'P-001', contractor:'C-03', subject:'خرید ماسه', amount:4800000000, pp:0, ret:0, ins:0, tax:0, vat:0}],
+    statements: [{contract:'CN-001', no:'1', date:'1405/07/30', work:8000000000, adj:200000000, other:0},
+                  {contract:'007/الف', no:'1', date:'1405/09/10', work:1200000000, adj:0, other:0}],
+    payments: [{contract:'CN-001', date:'1405/03/01', amount:5000000000, type:'پیش‌پرداخت', method:'حواله بانکی', ref:'TR-1001'},
+                 {contract:'007/الف', date:'1405/09/10', amount:360000000, type:PAY_TYPES[2], method:METHODS[2], ref:''},
+                 {contract:'007/الف', date:'1405/09/10', amount:840000000, type:PAY_TYPES[2], method:METHODS[1], ref:'1234567'}],
+    persons: [{code:'E-0001', name:'علی محمدی', nid:'0012345678', r1:'بنا', r2:'', r3:'', phone:'0912-0000001'},
+              {code:'E-0002', name:'حسین کریمی', nid:'0023456789', r1:'کارگر', r2:'', r3:'', phone:'0912-0000002'},
+              {code:'E-0003', name:'شرکت سازه نمونه', nid:'10101234567', r1:'پیمانکار', r2:'', r3:'', phone:'021-00000000'}],
+    journal: [{doc:'1', date:'1405/01/10', code:'1101', desc:'آورده نقدی اولیه', dr:10000000000, cr:'', project:''},
+              {doc:'1', date:'1405/01/10', code:'3101', desc:'آورده نقدی اولیه', dr:'', cr:10000000000, project:''},
+              {doc:'4', date:'1405/09/20', code:'5103', desc:'دستمزد بنا', dr:120000000, cr:'', project:'P-001', person:''},
+              {doc:'4', date:'1405/09/20', code:'2202', desc:'دستمزد بنا', dr:'', cr:120000000, project:'P-001', person:'E-0001'},
+              {doc:'2', date:'1405/09/01', code:'1101', desc:'دریافت از کارفرما', dr:20000000000, cr:'', project:'', person:''},
+              {doc:'2', date:'1405/09/01', code:'4101', desc:'درآمد پروژه', dr:'', cr:20000000000, project:'P-001', person:''}],
+    assets: [{code:'A-001', name:'کانکس کارگاهی', cat:'تأسیسات موقت کارگاهی', y:1405, m:6, prj:'P-001', cost:800000000, salvage:0, life:5},
+             {code:'A-002', name:'موتور برق', cat:'ماشین‌آلات و تجهیزات', y:1405, m:7, prj:'P-001', cost:250000000, salvage:0, life:5}],
+    purchases: [{contract:'007/الف', item:'ماسه', unit:'تن', qty:2000, price:2400000, cashPct:30, months:2}],
+    recv: [{no:'654321', bank:'بانک نمونه', amount:2000000000, issue:'1405/08/20', due:'1405/10/20', project:'P-001', status:'در جریان'}],
+    checks: [{no:'1234567', bank:'بانک نمونه', amount:840000000, issue:'1405/09/10', due:'1405/11/10', contract:'007/الف', status:'در جریان'}],
+    guarantees: [{no:'G-100', contract:'CN-001', type:'حسن انجام تعهدات', bank:'بانک نمونه', amount:2500000000, issue:'1405/02/01', expiry:'1406/08/01', status:'معتبر'}]
+  };
+}
+var S = sample();
+var db = null, timer = null;
+var ACCTS = [[1101,'موجودی نقد و بانک','دارایی'],[1102,'پیش‌پرداخت به پیمانکاران','دارایی'],[1103,'مالیات بر ارزش افزوده (خرید)','دارایی'],[1104,'کار در جریان ساخت','دارایی'],[1105,'حساب‌های دریافتنی (کارفرمایان)','دارایی'],[1106,'اسناد دریافتنی','دارایی'],[1107,'موجودی مصالح در انبار','دارایی'],[1109,'تنخواه گردان','دارایی'],[1201,'اموال، ماشین‌آلات و تجهیزات','دارایی'],[1202,'تأسیسات موقت کارگاهی','دارایی'],[1203,'استهلاک انباشته','دارایی'],[2101,'حساب‌های پرداختنی پیمانکاران','بدهی'],[2102,'حسن انجام کار پیمانکاران','بدهی'],[2103,'بیمه پرداختنی','بدهی'],[2104,'مالیات تکلیفی پرداختنی','بدهی'],[2105,'اسناد پرداختنی','بدهی'],[2106,'سایر کسورات پرداختنی','بدهی'],[2107,'حساب‌های پرداختنی تجاری','بدهی'],[2108,'پیش‌دریافت از کارفرما','بدهی'],[2109,'مالیات بر ارزش افزوده (فروش)','بدهی'],[2201,'وام‌ها و تسهیلات بانکی','بدهی'],[2202,'حقوق و دستمزد پرداختنی','بدهی'],[3101,'سرمایه','حقوق صاحبان سهام'],[3102,'سود (زیان) انباشته','حقوق صاحبان سهام'],[4101,'درآمد پروژه‌ها','درآمد'],[4102,'سایر درآمدها','درآمد'],[5101,'هزینه‌های عمومی و اداری','هزینه'],[5102,'هزینه مصالح','هزینه'],[5103,'هزینه حقوق و دستمزد','هزینه'],[5104,'هزینه اجاره','هزینه'],[5105,'هزینه حمل و نقل','هزینه'],[5106,'هزینه استهلاک','هزینه'],[5107,'هزینه کارمزد و خدمات بانکی','هزینه'],[5108,'هزینه سوخت و انرژی','هزینه'],[5109,'هزینه ابزار و لوازم کارگاهی','هزینه'],[5110,'هزینه ایمنی و لباس کار','هزینه']];
+function ensure(s) {
+  if (!s.accounts) s.accounts = ACCTS.map(function (a) { return {code: String(a[0]), name: a[1], type: a[2]}; });
+  if (!s.journal) s.journal = [];
+  if (!s.persons) s.persons = [];
+  if (!s.assets) s.assets = [];
+  if (!s.guarantees) s.guarantees = [];
+  if (!s.purchases) s.purchases = [];
+  if (!s.checks) s.checks = [];
+  if (!s.recv) s.recv = [];
+  return s;
+}
+try { var raw = localStorage.getItem(KEY); if (raw) S = JSON.parse(raw); } catch (e) {}
+S = ensure(S);
+
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {}
+  clearTimeout(timer);
+  timer = setTimeout(function () {
+    if (db) db.doc('ledger/state').set({json: JSON.stringify(S)}).catch(function () {});
+  }, 600);
+}
+var N = function (v) { return parseFloat(v) || 0; };
+var fmt = function (v) { return Math.round(v).toLocaleString('en-US'); };
+var by = function (arr, k, v) { return arr.filter(function (x) { return x[k] === v; }); };
+var one = function (arr, k, v) { return arr.filter(function (x) { return x[k] === v; })[0]; };
+
+function stmt(s) {
+  var c = one(S.contracts, 'no', s.contract) || {};
+  var g = N(s.work) + N(s.adj), vat = g * (c.vat === undefined || c.vat === '' || c.vat === null ? S.vat : N(c.vat)) / 100;
+  var pp = g * N(c.pp) / 100, ret = g * N(c.ret) / 100, ins = g * N(c.ins) / 100, tax = g * N(c.tax) / 100, oth = N(s.other);
+  return {g: g, vat: vat, pp: pp, ret: ret, ins: ins, tax: tax, oth: oth,
+          pay: g + vat - pp - ret - ins - tax - oth, owed: g + vat - ret - ins - tax - oth};
+}
+function cstat(c) {
+  var r = {gross: 0, owed: 0, ret: 0, paid: 0};
+  by(S.statements, 'contract', c.no).forEach(function (s) { var x = stmt(s); r.gross += x.g; r.owed += x.owed; r.ret += x.ret; });
+  by(S.payments, 'contract', c.no).forEach(function (p) { r.paid += N(p.amount); });
+  r.debt = r.owed - r.paid;
+  r.prog = N(c.amount) ? r.gross / N(c.amount) : 0;
+  return r;
+}
+function sumC(pred, key) {
+  return S.contracts.filter(pred).reduce(function (a, c) { return a + cstat(c)[key]; }, 0);
+}
+
+var codes = function (arr, k) { return arr.map(function (x) { return x[k]; }).filter(Boolean); };
+var ENT = {
+  projects: {title: 'پروژه‌ها', blank: {code:'', name:'', client:'', amount:''},
+    cols: [['code','کد'], ['name','نام پروژه'], ['client','کارفرما'], ['amount','مبلغ قرارداد با کارفرما','n']],
+    calc: [['قراردادهای پیمانکاری', function (p) { return S.contracts.filter(function (c) { return c.project === p.code; }).reduce(function (a, c) { return a + N(c.amount); }, 0); }],
+           ['کارکرد ناخالص', function (p) { return sumC(function (c) { return c.project === p.code; }, 'gross'); }],
+           ['مانده بدهی', function (p) { return sumC(function (c) { return c.project === p.code; }, 'debt'); }]]},
+  contractors: {title: 'پیمانکاران', blank: {code:'', name:'', nid:'', phone:''},
+    cols: [['code','کد'], ['name','نام پیمانکار'], ['nid','کد ملی / شناسه'], ['phone','تلفن']],
+    calc: [['مبلغ قراردادها', function (p) { return S.contracts.filter(function (c) { return c.contractor === p.code; }).reduce(function (a, c) { return a + N(c.amount); }, 0); }],
+           ['مانده بدهی', function (p) { return sumC(function (c) { return c.contractor === p.code; }, 'debt'); }]]},
+  contracts: {title: 'قراردادها', blank: {no:'', project:'', contractor:'', subject:'', amount:'', pp:10, ret:10, ins:5, tax:0},
+    cols: [['no','شماره قرارداد'], ['project','پروژه','s',function () { return codes(S.projects, 'code'); }],
+           ['contractor','پیمانکار','s',function () { return codes(S.contractors, 'code'); }], ['subject','موضوع'],
+           ['amount','مبلغ قرارداد','n'], ['pp','پیش‌پرداخت ٪','n'], ['ret','حسن انجام کار ٪','n'], ['ins','بیمه ٪','n'], ['tax','مالیات ٪','n']],
+    calc: [['کارکرد ناخالص', function (c) { return cstat(c).gross; }],
+           ['پیشرفت', function (c) { return cstat(c).prog; }, 'p'],
+           ['پرداختی', function (c) { return cstat(c).paid; }],
+           ['مانده بدهی', function (c) { return cstat(c).debt; }]]},
+  statements: {title: 'صورت‌وضعیت', blank: {contract:'', no:'', date:'', work:'', adj:'', other:''},
+    cols: [['contract','قرارداد','s',function () { return codes(S.contracts, 'no'); }], ['no','شماره'], ['date','تاریخ (شمسی)'],
+           ['work','کارکرد ناخالص دوره','n'], ['adj','تعدیل','n'], ['other','سایر کسورات','n']],
+    calc: [['جمع ناخالص', function (s) { return stmt(s).g; }], ['ارزش افزوده', function (s) { return stmt(s).vat; }],
+           ['استهلاک پیش‌پرداخت', function (s) { return stmt(s).pp; }], ['حسن انجام کار', function (s) { return stmt(s).ret; }],
+           ['بیمه', function (s) { return stmt(s).ins; }], ['مالیات', function (s) { return stmt(s).tax; }],
+           ['قابل پرداخت', function (s) { return stmt(s).pay; }]]},
+  payments: {title: 'پرداخت‌ها', blank: {contract:'', date:'', amount:'', type:'علی‌الحساب', method:'حواله بانکی', ref:''},
+    cols: [['contract','قرارداد','s',function () { return codes(S.contracts, 'no'); }], ['date','تاریخ (شمسی)'], ['amount','مبلغ (ریال)','n'],
+           ['type','نوع','s',function () { return PAY_TYPES; }], ['method','روش','s',function () { return METHODS; }], ['ref','شماره چک / سند']],
+    calc: [['پیمانکار', function (p) { var c = one(S.contracts, 'no', p.contract); var k = c && one(S.contractors, 'code', c.contractor); return k ? k.name : ''; }, 't']]}
+};
+var TABS = [['dash', 'داشبورد'], ['projects', 'پروژه‌ها'], ['contractors', 'پیمانکاران'], ['contracts', 'قراردادها'], ['statements', 'صورت‌وضعیت'], ['payments', 'پرداخت‌ها']];
+
+function docStatus(j) {
+  if (!j.doc) return '';
+  var d = S.journal.filter(function (x) { return x.doc === j.doc; }).reduce(function (a, x) { return a + N(x.dr) - N(x.cr); }, 0);
+  return Math.round(d) === 0 ? 'متوازن' : 'نامتوازن';
+}
+ENT.accounts = {title: 'سرفصل حساب‌ها', blank: {code: '', name: '', type: ''},
+  cols: [['code', 'کد'], ['name', 'نام حساب'], ['type', 'نوع', 's', function () { return ['دارایی', 'بدهی', 'حقوق صاحبان سهام', 'درآمد', 'هزینه']; }]], calc: []};
+ENT.journal = {title: 'دفتر روزنامه', blank: {doc: '', date: '', code: '', desc: '', dr: '', cr: '', project: ''},
+  cols: [['doc', 'شماره سند'], ['date', 'تاریخ (شمسی)'], ['code', 'حساب', 's', function () { return codes(S.accounts, 'code'); }], ['desc', 'شرح'],
+         ['dr', 'بدهکار', 'n'], ['cr', 'بستانکار', 'n'], ['project', 'پروژه', 's', function () { return codes(S.projects, 'code'); }]],
+  calc: [['نام حساب', function (j) { var a = one(S.accounts, 'code', String(j.code)); return a ? a.name : ''; }, 't'], ['وضعیت سند', docStatus, 't']]};
+TABS.push(['journal', 'دفتر روزنامه'], ['tb', 'تراز آزمایشی'], ['accounts', 'سرفصل حساب‌ها']);
+
+function h(tag, attrs, kids) {
+  var e = document.createElement(tag);
+  Object.keys(attrs || {}).forEach(function (k) { if (k === 'text') e.textContent = attrs[k]; else e.setAttribute(k, attrs[k]); });
+  (kids || []).forEach(function (c) { e.appendChild(c); });
+  return e;
+}
+function cell(v, kind) {
+  var td = h('td', {'class': 'c'});
+  if (kind === 'p') {
+    td.textContent = (v * 100).toFixed(1) + '٪';
+    td.appendChild(h('span', {'class': 'pg'}, [h('i', {style: 'width:' + Math.min(100, v * 100) + '%'})]));
+  } else if (kind === 't') td.textContent = v;
+  else { td.textContent = fmt(v); if (v < 0) td.className += ' neg'; }
+  return td;
+}
+function renderTable(key) {
+  var E = ENT[key], rows = S[key];
+  var wrap = h('div', {'class': 'wrap'}), t = h('table'), thead = h('tr');
+  E.cols.forEach(function (c) { thead.appendChild(h('th', {text: c[1]})); });
+  E.calc.forEach(function (c) { thead.appendChild(h('th', {text: c[0]})); });
+  thead.appendChild(h('th'));
+  t.appendChild(h('thead', {}, [thead]));
+  var tb = h('tbody');
+  rows.forEach(function (row, i) {
+    var tr = h('tr');
+    E.cols.forEach(function (c) {
+      var td = h('td'), inp;
+      if (c[2] === 's') {
+        inp = h('select'); var opts = [''].concat(c[3]());
+        if (row[c[0]] && opts.indexOf(row[c[0]]) < 0) opts.push(row[c[0]]);
+        opts.forEach(function (o) { var op = h('option', {value: o, text: optLabel(c[0], o)}); inp.appendChild(op); });
+      } else {
+        var grp = c[2] === 'n' && GROUPED.indexOf(c[0]) >= 0;
+        inp = h('input', {type: c[2] === 'n' && !grp ? 'number' : 'text', step: 'any'});
+        if (grp) inp.setAttribute('inputmode', 'decimal');
+        if (c[2] === 'n') inp.className = 'n';
+      }
+      inp.value = row[c[0]] == null ? '' : (grp ? grpFmt(row[c[0]]) : row[c[0]]);
+      inp.setAttribute('aria-label', c[1]);
+      inp.addEventListener('change', function () {
+        var nv = grp ? grpRaw(inp.value) : inp.value;
+        if (UNIQ[key] === c[0] && String(nv).trim() !== '' && rows.some(function (r2) { return r2 !== row && String(r2[c[0]]) === String(nv); })) {
+          toast('کد تکراری است: ' + nv + ' — مقدار قبلی حفظ شد.');
+          render(); return;
+        }
+        row[c[0]] = nv; save(); render();
+      });
+      if (grp) inp.addEventListener('input', function () { grpLive(inp); });
+      td.appendChild(inp); tr.appendChild(td);
+    });
+    E.calc.forEach(function (c) { tr.appendChild(cell(c[1](row), c[2])); });
+    var del = h('button', {'class': 'del', 'aria-label': 'حذف ردیف', text: '×'});
+    del.addEventListener('click', function () { rows.splice(i, 1); save(); render(); });
+    tr.appendChild(h('td', {}, [del]));
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb); wrap.appendChild(t);
+  if (!rows.length) wrap.appendChild(h('div', {'class': 'empty', text: 'هنوز ردیفی ثبت نشده. با «افزودن ردیف» شروع کنید.'}));
+  var add = h('button', {'class': 'btn', text: 'افزودن ردیف'});
+  add.addEventListener('click', function () { rows.push(JSON.parse(JSON.stringify(E.blank))); save(); render(); });
+  var bar = h('div', {'class': 'bar'}, [add]);
+  var frag = document.createDocumentFragment();
+  frag.appendChild(bar); frag.appendChild(wrap);
+  if (key === 'statements') frag.appendChild(h('div', {'class': 'note', text: 'کسورات طبق درصدهای قرارداد و نرخ ارزش افزوده (در داشبورد) محاسبه می‌شود. قابل پرداخت = جمع ناخالص + ارزش افزوده − استهلاک پیش‌پرداخت − حسن انجام کار − بیمه − مالیات − سایر کسورات.'}));
+  return frag;
+}
+function renderDash() {
+  var tot = function (k) { return sumC(function () { return true; }, k); };
+  var items = [['پروژه‌ها', S.projects.length, 0], ['قراردادها', S.contracts.length, 0],
+    ['جمع مبلغ قراردادها', S.contracts.reduce(function (a, c) { return a + N(c.amount); }, 0), 0],
+    ['کارکرد ناخالص', tot('gross'), 0], ['جمع پرداختی', tot('paid'), 0], ['مانده بدهی', tot('debt'), 1],
+    ['حسن انجام کار نگهداری‌شده', tot('ret'), 0]];
+  var k = h('div', {'class': 'kpis'});
+  items.forEach(function (it) { k.appendChild(h('div', {'class': 'kpi' + (it[2] ? ' debt' : '')}, [h('span', {text: it[0]}), h('b', {text: fmt(it[1])})])); });
+  var vat = h('input', {type: 'number', step: 'any', style: 'width:70px', 'aria-label': 'نرخ ارزش افزوده'});
+  vat.value = S.vat;
+  vat.addEventListener('change', function () { S.vat = N(vat.value); save(); render(); });
+  var clear = h('button', {'class': 'btn ghost', text: 'حذف داده‌های نمونه'});
+  clear.addEventListener('click', function () { if (confirm('همه‌ی داده‌ها پاک شود؟')) { S = ensure({vat: S.vat, tab: 'dash', accounts: S.accounts, projects: [], contractors: [], contracts: [], statements: [], payments: [], journal: []}); save(); render(); } });
+  var bar = h('div', {'class': 'bar'}, [h('label', {text: 'نرخ ارزش افزوده (٪)'}), vat, clear]);
+  backupControls().forEach(function (x) { bar.appendChild(x); });
+  var wrap = h('div', {'class': 'wrap'}), t = h('table'), hd = h('tr');
+  ['قرارداد', 'پیمانکار', 'مبلغ قرارداد', 'کارکرد ناخالص', 'پیشرفت', 'پرداختی', 'مانده بدهی'].forEach(function (x) { hd.appendChild(h('th', {text: x})); });
+  t.appendChild(h('thead', {}, [hd]));
+  var tb = h('tbody');
+  S.contracts.forEach(function (c) {
+    var r = cstat(c), kn = one(S.contractors, 'code', c.contractor), tr = h('tr');
+    tr.appendChild(h('td', {text: c.no})); tr.appendChild(h('td', {text: kn ? kn.name : c.contractor}));
+    tr.appendChild(cell(N(c.amount))); tr.appendChild(cell(r.gross)); tr.appendChild(cell(r.prog, 'p'));
+    tr.appendChild(cell(r.paid)); tr.appendChild(cell(r.debt)); tb.appendChild(tr);
+  });
+  t.appendChild(tb); wrap.appendChild(t);
+  if (!S.contracts.length) wrap.appendChild(h('div', {'class': 'empty', text: 'قراردادی ثبت نشده. از برگه‌ی پروژه‌ها شروع کنید.'}));
+  var f = document.createDocumentFragment();
+  var chm = Math.max.apply(null, [1].concat(S.contracts.map(function (c) { return N(c.amount); })));
+  var chs = h('div', {'class': 'kpis', style: 'margin-top:14px'});
+  S.contracts.forEach(function (c) { var r = cstat(c); chs.appendChild(barBox(c.no, [['مبلغ قرارداد', N(c.amount)], ['کارکرد', r.gross], ['پرداختی', r.paid]], chm)); });
+  [k, bar, wrap, chs].forEach(function (x) { f.appendChild(x); });
+  return f;
+}
+function autoPost() {
+  var a = {};
+  function add(c, d, k) { a[c] = a[c] || {dr: 0, cr: 0}; a[c][d] += k; }
+  S.statements.forEach(function (s) {
+    var x = stmt(s);
+    add('1104', 'dr', x.g); add('1103', 'dr', x.vat); add('1102', 'cr', x.pp); add('2102', 'cr', x.ret);
+    add('2103', 'cr', x.ins); add('2104', 'cr', x.tax); add('2106', 'cr', x.oth); add('2101', 'cr', x.pay);
+  });
+  S.payments.forEach(function (p) {
+    var m = N(p.amount);
+    add(p.method === METHODS[1] ? '2105' : '1101', 'cr', m);
+    add(p.type === PAY_TYPES[0] ? '1102' : p.type === PAY_TYPES[3] ? '2102' : '2101', 'dr', m);
+  });
+  return a;
+}
+function renderTb() {
+  var au = autoPost(), wrap = h('div', {'class': 'wrap'}), t = h('table'), hd = h('tr'), tb = h('tbody');
+  ['کد', 'نام حساب', 'دستی بدهکار', 'دستی بستانکار', 'خودکار بدهکار', 'خودکار بستانکار', 'مانده بدهکار', 'مانده بستانکار'].forEach(function (x) { hd.appendChild(h('th', {text: x})); });
+  t.appendChild(h('thead', {}, [hd]));
+  var T = [0, 0, 0, 0, 0, 0];
+  S.accounts.forEach(function (ac) {
+    var md = 0, mc = 0, a = au[ac.code] || {dr: 0, cr: 0};
+    S.journal.forEach(function (j) { if (String(j.code) === ac.code) { md += N(j.dr); mc += N(j.cr); } });
+    var dr = md + a.dr, cr = mc + a.cr;
+    if (!dr && !cr) return;
+    var v = [md, mc, a.dr, a.cr, Math.max(dr - cr, 0), Math.max(cr - dr, 0)], tr = h('tr');
+    tr.appendChild(h('td', {text: ac.code})); tr.appendChild(h('td', {text: ac.name}));
+    v.forEach(function (x, i) { T[i] += x; tr.appendChild(cell(x)); });
+    tb.appendChild(tr);
+  });
+  var ft = h('tr'); ft.appendChild(h('td')); ft.appendChild(h('td', {text: 'جمع'}));
+  T.forEach(function (x) { ft.appendChild(cell(x)); }); tb.appendChild(ft);
+  t.appendChild(tb); wrap.appendChild(t);
+  var ok = Math.round(T[4] - T[5]) === 0;
+  var f = document.createDocumentFragment();
+  f.appendChild(h('div', {'class': 'note', text: 'اسناد خودکار صورت‌وضعیت‌ها و پرداخت‌ها با اسناد دستی دفتر روزنامه جمع می‌شوند. فقط حساب‌های دارای گردش نمایش داده می‌شوند. کنترل توازن: ' + (ok ? 'متوازن' : 'نامتوازن')}));
+  f.appendChild(wrap);
+  return f;
+}
+function autoLines() {
+  var out = [];
+  S.statements.forEach(function (s, i) {
+    var x = stmt(s), c = one(S.contracts, 'no', s.contract) || {};
+    var base = {src: 'خودکار', pers: persOf(c), date: s.date, doc: 'ص-' + (i + 1), proj: c.project || '', desc: 'صورت‌وضعیت ' + (s.no || '') + ' - ' + (s.contract || '')};
+    [['1104', 'dr', x.g], ['1103', 'dr', x.vat], ['1102', 'cr', x.pp], ['2102', 'cr', x.ret], ['2103', 'cr', x.ins], ['2104', 'cr', x.tax], ['2106', 'cr', x.oth], ['2101', 'cr', x.pay]].forEach(function (r) {
+      if (r[2]) out.push(Object.assign({code: r[0], dr: r[1] === 'dr' ? r[2] : 0, cr: r[1] === 'cr' ? r[2] : 0}, base));
+    });
+  });
+  S.payments.forEach(function (p, i) {
+    var c = one(S.contracts, 'no', p.contract) || {}, m = N(p.amount);
+    var base = {src: 'خودکار', pers: persOf(c), date: p.date, doc: 'پ-' + (i + 1), proj: c.project || '', desc: 'پرداخت ' + (p.type || '') + ' - ' + (p.contract || '')};
+    var dc = p.type === PAY_TYPES[0] ? '1102' : p.type === PAY_TYPES[3] ? '2102' : '2101';
+    if (m) { out.push(Object.assign({code: dc, dr: m, cr: 0}, base)); out.push(Object.assign({code: p.method === METHODS[1] ? '2105' : '1101', dr: 0, cr: m}, base)); }
+  });
+  return out;
+}
+function renderLedger() {
+  var ac = S.lacct || '', pj = S.lproj || '', pe = S.lperson || '', ro = S.lrole || '';
+  var manual = S.journal.map(function (j) { return {src: 'دستی', date: j.date, doc: j.doc, code: String(j.code), proj: j.project || '', pers: j.person || '', desc: j.desc, dr: N(j.dr), cr: N(j.cr)}; });
+  var rows = manual.concat(autoLines()).filter(function (r) { return (!ac || r.code === ac) && (!pj || r.proj === pj) && (!pe || r.pers === pe); });
+  function sel(val, opts, key, label, nameOf) {
+    var s = h('select', {'aria-label': label});
+    [''].concat(opts).forEach(function (o) { s.appendChild(h('option', {value: o, text: o ? (nameOf ? o + ' - ' + nameOf(o) : o) : 'همه'})); });
+    s.value = val;
+    s.addEventListener('change', function () { S[key] = s.value; save(); render(); });
+    return s;
+  }
+  var acName = function (o) { return (one(S.accounts, 'code', o) || {}).name || ''; };
+  var bar = h('div', {'class': 'bar'}, [h('label', {text: 'حساب'}), sel(ac, codes(S.accounts, 'code'), 'lacct', 'حساب', acName),
+    h('label', {text: 'پروژه'}), projSel(pj, 'پروژه')]);
+  var rs = h('select', {'aria-label': 'نقش'});
+  [''].concat(ROLES).forEach(function (o) { rs.appendChild(h('option', {value: o, text: o || 'همه'})); });
+  rs.value = ro;
+  rs.addEventListener('change', function () { S.lrole = rs.value; S.lperson = ''; save(); render(); });
+  var plist = S.persons.filter(function (p) { return !ro || [p.r1, p.r2, p.r3].indexOf(ro) >= 0; }).map(function (p) { return p.code; });
+  var pname = function (o) { return (one(S.persons, 'code', o) || {}).name || ''; };
+  [h('label', {text: 'نقش'}), rs, h('label', {text: 'شخص'}), sel(pe, plist, 'lperson', 'شخص', pname)].forEach(function (x) { bar.appendChild(x); });
+  var t = h('table'), hd = h('tr'), tb = h('tbody'), bal = 0, td = 0, tc = 0;
+  ['منبع', 'تاریخ', 'سند', 'حساب', 'پروژه', 'شرح', 'بدهکار', 'بستانکار', 'مانده تجمعی'].forEach(function (x) { hd.appendChild(h('th', {text: x})); });
+  t.appendChild(h('thead', {}, [hd]));
+  rows.forEach(function (r) {
+    bal += r.dr - r.cr; td += r.dr; tc += r.cr;
+    var tr = h('tr');
+    [r.src, r.date || '', r.doc || '', r.code + ' ' + acName(r.code), r.proj, r.desc || ''].forEach(function (x) { tr.appendChild(h('td', {text: x})); });
+    tr.appendChild(cell(r.dr)); tr.appendChild(cell(r.cr)); tr.appendChild(cell(bal));
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  var wrap = h('div', {'class': 'wrap'}, [t]);
+  if (!rows.length) wrap.appendChild(h('div', {'class': 'empty', text: 'ردیفی با این فیلتر پیدا نشد.'}));
+  var k = h('div', {'class': 'kpis'});
+  [['جمع بدهکار', td, 0], ['جمع بستانکار', tc, 0], ['مانده (مثبت = بدهکار، منفی = بستانکار)', bal, 1]].forEach(function (it) {
+    k.appendChild(h('div', {'class': 'kpi' + (it[2] ? ' debt' : '')}, [h('span', {text: it[0]}), h('b', {text: fmt(it[1])})]));
+  });
+  var f = document.createDocumentFragment();
+  [bar, k, wrap].forEach(function (x) { f.appendChild(x); });
+  return f;
+}
+TABS.push(['ledger', 'دفتر کل']);
+var ROLES = ['پیمانکار', 'کارگر', 'بنا', 'تأمین‌کننده / فروشنده', 'کارفرما', 'مشاور / ناظر', 'راننده / حمل‌ونقل', 'سایر'];
+function persOf(c) { var k = one(S.contractors, 'code', c.contractor); return (k && k.person) || ''; }
+function persSum(p, k) { return S.journal.filter(function (j) { return j.person === p.code; }).reduce(function (a, j) { return a + N(j[k]); }, 0); }
+ENT.persons = {title: 'اشخاص', blank: {code: '', name: '', nid: '', r1: '', r2: '', r3: '', phone: ''},
+  cols: [['code', 'کد شخص'], ['name', 'نام'], ['nid', 'کد ملی / شناسه'], ['r1', 'کارکرد ۱', 's', function () { return ROLES; }],
+         ['r2', 'کارکرد ۲', 's', function () { return ROLES; }], ['r3', 'کارکرد ۳', 's', function () { return ROLES; }], ['phone', 'تلفن']],
+  calc: [['بدهکار', function (p) { return persSum(p, 'dr'); }], ['بستانکار', function (p) { return persSum(p, 'cr'); }],
+         ['مانده (بدهکار − بستانکار)', function (p) { return persSum(p, 'dr') - persSum(p, 'cr'); }]]};
+ENT.contractors.cols.push(['person', 'کد شخص', 's', function () { return codes(S.persons, 'code'); }]);
+ENT.contractors.blank.person = '';
+ENT.journal.cols.push(['person', 'شخص', 's', function () { return codes(S.persons, 'code'); }]);
+ENT.journal.blank.person = '';
+ENT.journal.calc.push(['نام شخص', function (j) { var p = one(S.persons, 'code', j.person); return p ? p.name : ''; }, 't']);
+TABS.push(['persons', 'اشخاص']);
+function renderPL() {
+  var rows = S.projects.map(function (p) {
+    var inc = 0, exp = 0;
+    S.journal.forEach(function (j) {
+      if (j.project !== p.code) return;
+      var c = String(j.code).charAt(0);
+      if (c === '4') inc += N(j.cr) - N(j.dr);
+      if (c === '5') exp += N(j.dr) - N(j.cr);
+    });
+    var sub = sumC(function (c) { return c.project === p.code; }, 'gross'), cost = sub + exp;
+    return {p: p, amt: N(p.amount), inc: inc, sub: sub, exp: exp, cost: cost, profit: inc - cost};
+  });
+  var t = h('table'), hd = h('tr'), tb = h('tbody'), T = [0, 0, 0, 0, 0, 0];
+  ['پروژه', 'مبلغ قرارداد کارفرما', 'درآمد ثبت‌شده', 'بهای پیمانکاری', 'سایر هزینه‌ها', 'جمع هزینه‌ها', 'سود (زیان)', 'درصد سود'].forEach(function (x) { hd.appendChild(h('th', {text: x})); });
+  t.appendChild(h('thead', {}, [hd]));
+  rows.forEach(function (r) {
+    var tr = h('tr');
+    tr.appendChild(h('td', {text: r.p.code + ' - ' + (r.p.name || '')}));
+    [r.amt, r.inc, r.sub, r.exp, r.cost, r.profit].forEach(function (x, i) { T[i] += x; tr.appendChild(cell(x)); });
+    tr.appendChild(cell(r.inc ? r.profit / r.inc : 0, 'p'));
+    tb.appendChild(tr);
+  });
+  var ft = h('tr'); ft.appendChild(h('td', {text: 'جمع کل'}));
+  T.forEach(function (x) { ft.appendChild(cell(x)); }); ft.appendChild(cell(T[1] ? T[5] / T[1] : 0, 'p'));
+  tb.appendChild(ft); t.appendChild(tb);
+  var wrap = h('div', {'class': 'wrap'}, [t]);
+  if (!rows.length) wrap.appendChild(h('div', {'class': 'empty', text: 'پروژه‌ای ثبت نشده.'}));
+  var mx = Math.max.apply(null, [1].concat(rows.map(function (r) { return Math.max(Math.abs(r.inc), Math.abs(r.cost), Math.abs(r.profit)); })));
+  var charts = h('div', {'class': 'kpis', style: 'margin-top:14px'});
+  rows.forEach(function (r) {
+    var box = h('div', {'class': 'kpi'}, [h('span', {text: r.p.code + ' - ' + (r.p.name || '')})]);
+    [['درآمد', r.inc], ['هزینه', r.cost], ['سود (زیان)', r.profit]].forEach(function (x) {
+      var bar = h('i', {style: 'width:' + Math.min(100, Math.abs(x[1]) / mx * 100) + '%' + (x[1] < 0 ? ';background:var(--warn)' : '')});
+      box.appendChild(h('div', {'class': 'bar', style: 'margin:4px 0'}, [h('span', {text: x[0], style: 'width:70px'}),
+        h('span', {'class': 'pg', style: 'width:140px'}, [bar]), h('span', {text: fmt(x[1])})]));
+    });
+    charts.appendChild(box);
+  });
+  var f = document.createDocumentFragment();
+  f.appendChild(h('div', {'class': 'note', text: 'درآمد = حساب‌های 4xxx دفتر روزنامه با کد پروژه؛ بهای پیمانکاری = کارکرد ناخالص صورت‌وضعیت‌ها؛ سایر هزینه‌ها = حساب‌های 5xxx با کد پروژه. هزینه‌ها و درآمدهای بدون کد پروژه لحاظ نمی‌شوند.'}));
+  f.appendChild(wrap); f.appendChild(charts);
+  return f;
+}
+TABS.push(['pl', 'سود و زیان پروژه']);
+var CATS = ['ماشین‌آلات و تجهیزات', 'تأسیسات موقت کارگاهی', 'ابزار و لوازم بادوام', 'وسایل نقلیه', 'اثاثه و منصوبات', 'سایر'];
+function aCalc(a) {
+  var lm = N(a.life) * 12, raw = (N(S.ry || 1405) * 12 + N(S.rm || 9)) - (N(a.y) * 12 + N(a.m)) + 1;
+  var el = Math.max(0, Math.min(lm, raw)), mo = lm > 0 ? (N(a.cost) - N(a.salvage)) / lm : 0;
+  return {mo: mo, el: el, acc: mo * el, book: N(a.cost) - mo * el, now: (raw >= 1 && raw <= lm) ? mo : 0};
+}
+ENT.assets = {title: 'اموال و استهلاک', blank: {code: '', name: '', cat: '', y: '', m: '', prj: '', cost: '', salvage: 0, life: ''},
+  cols: [['code', 'کد دارایی'], ['name', 'نام دارایی'], ['cat', 'دسته', 's', function () { return CATS; }], ['y', 'سال خرید', 'n'], ['m', 'ماه خرید (1 تا 12)', 'n'],
+         ['prj', 'پروژه', 's', function () { return codes(S.projects, 'code'); }], ['cost', 'بهای تمام‌شده', 'n'], ['salvage', 'ارزش اسقاط', 'n'], ['life', 'عمر مفید (سال)', 'n']],
+  calc: [['استهلاک ماهانه', function (a) { return aCalc(a).mo; }], ['ماه‌های سپری‌شده', function (a) { return aCalc(a).el; }],
+         ['استهلاک انباشته', function (a) { return aCalc(a).acc; }], ['ارزش دفتری', function (a) { return aCalc(a).book; }],
+         ['استهلاک ماه گزارش', function (a) { return aCalc(a).now; }]]};
+ENT.guarantees = {title: 'ضمانت‌نامه‌ها', blank: {no: '', contract: '', type: '', bank: '', amount: '', issue: '', expiry: '', status: 'معتبر'},
+  cols: [['no', 'شماره ضمانت‌نامه'], ['contract', 'قرارداد', 's', function () { return codes(S.contracts, 'no'); }],
+         ['type', 'نوع', 's', function () { return ['حسن انجام تعهدات', 'پیش‌پرداخت', 'شرکت در مناقصه']; }], ['bank', 'بانک صادرکننده'], ['amount', 'مبلغ (ریال)', 'n'],
+         ['issue', 'تاریخ صدور'], ['expiry', 'تاریخ انقضا'], ['status', 'وضعیت', 's', function () { return ['معتبر', 'منقضی', 'آزادشده', 'ابطال‌شده']; }]],
+  calc: [['پیمانکار', function (g) { var c = one(S.contracts, 'no', g.contract), k = c && one(S.contractors, 'code', c.contractor); return k ? k.name : ''; }, 't']]};
+function renderAssets() {
+  function inp(key, def, label) {
+    var i = h('input', {type: 'number', style: 'width:80px', 'aria-label': label});
+    i.value = S[key] || def;
+    i.addEventListener('change', function () { S[key] = N(i.value); save(); render(); });
+    return i;
+  }
+  var tot = S.assets.reduce(function (a, x) { return a + aCalc(x).now; }, 0);
+  var bar = h('div', {'class': 'bar'}, [h('label', {text: 'سال گزارش'}), inp('ry', 1405, 'سال گزارش'), h('label', {text: 'ماه گزارش (1 تا 12)'}), inp('rm', 9, 'ماه گزارش'),
+    h('b', {text: 'استهلاک ماه گزارش: ' + fmt(tot)})]);
+  var f = document.createDocumentFragment();
+  f.appendChild(bar); f.appendChild(renderTable('assets'));
+  f.appendChild(h('div', {'class': 'note', text: 'استهلاک به روش خط مستقیم و از ماه خرید (ماه کامل) محاسبه می‌شود. سند ماهانه را دستی در دفتر روزنامه بزنید: 5106 بدهکار / 1203 بستانکار. عمر مفید و ارزش اسقاط را با حسابدار تعیین کنید.'}));
+  return f;
+}
+function renderAdj() {
+  var t = h('table'), hd = h('tr'), tb = h('tbody'), T = [0, 0, 0];
+  ['قرارداد', 'پیمانکار', 'مبلغ قرارداد', 'تعداد صورت‌وضعیت', 'جمع تعدیل', 'درصد تعدیل', 'مبلغ پس از تعدیل', 'پیشرفت نسبت به مبلغ تعدیل‌شده'].forEach(function (x) { hd.appendChild(h('th', {text: x})); });
+  t.appendChild(h('thead', {}, [hd]));
+  S.contracts.forEach(function (c) {
+    var ss = by(S.statements, 'contract', c.no), adj = ss.reduce(function (a, s) { return a + N(s.adj); }, 0);
+    var amt = N(c.amount), after = amt + adj, g = cstat(c).gross, k = one(S.contractors, 'code', c.contractor), tr = h('tr');
+    tr.appendChild(h('td', {text: c.no})); tr.appendChild(h('td', {text: k ? k.name : c.contractor || ''}));
+    tr.appendChild(cell(amt)); tr.appendChild(cell(ss.length)); tr.appendChild(cell(adj)); tr.appendChild(cell(amt ? adj / amt : 0, 'p'));
+    tr.appendChild(cell(after)); tr.appendChild(cell(after ? g / after : 0, 'p'));
+    T[0] += amt; T[1] += adj; T[2] += after; tb.appendChild(tr);
+  });
+  var ft = h('tr'); ft.appendChild(h('td', {text: 'جمع کل'})); ft.appendChild(h('td'));
+  ft.appendChild(cell(T[0])); ft.appendChild(h('td')); ft.appendChild(cell(T[1])); ft.appendChild(cell(T[0] ? T[1] / T[0] : 0, 'p')); ft.appendChild(cell(T[2])); ft.appendChild(h('td'));
+  tb.appendChild(ft); t.appendChild(tb);
+  var wrap = h('div', {'class': 'wrap'}, [t]);
+  if (!S.contracts.length) wrap.appendChild(h('div', {'class': 'empty', text: 'قراردادی ثبت نشده.'}));
+  var f = document.createDocumentFragment();
+  f.appendChild(h('div', {'class': 'note', text: 'تعدیل هر قرارداد از ستون «تعدیل» در برگه‌ی صورت‌وضعیت جمع می‌شود.'}));
+  f.appendChild(wrap);
+  return f;
+}
+TABS.push(['assets', 'اموال و استهلاک'], ['guarantees', 'ضمانت‌نامه‌ها'], ['adj', 'گزارش تعدیل']);
+function barBox(title, items, mx) {
+  var box = h('div', {'class': 'kpi'}, [h('span', {text: title})]);
+  items.forEach(function (x) {
+    var b = h('i', {style: 'width:' + Math.min(100, Math.abs(x[1]) / mx * 100) + '%' + (x[1] < 0 ? ';background:var(--warn)' : '')});
+    box.appendChild(h('div', {'class': 'bar', style: 'margin:4px 0'}, [h('span', {text: x[0], style: 'width:80px'}), h('span', {'class': 'pg', style: 'width:130px'}, [b]), h('span', {text: fmt(x[1])})]));
+  });
+  return box;
+}
+function mkSel(key, opts, label, nameOf, ph) {
+  var s = h('select', {'aria-label': label});
+  [''].concat(opts).forEach(function (o) { s.appendChild(h('option', {value: o, text: o ? (nameOf ? o + ' - ' + nameOf(o) : o) : ph})); });
+  s.value = S[key] || '';
+  s.addEventListener('change', function () { S[key] = s.value; save(); render(); });
+  return s;
+}
+function tableOf(heads, rowsFn) {
+  var t = h('table'), hd = h('tr'), tb = h('tbody');
+  heads.forEach(function (x) { hd.appendChild(h('th', {text: x})); });
+  t.appendChild(h('thead', {}, [hd])); rowsFn(tb); t.appendChild(tb);
+  return h('div', {'class': 'wrap'}, [t]);
+}
+function renderAuto() {
+  var rows = autoLines(), td = 0, tc = 0;
+  var an = function (c) { return (one(S.accounts, 'code', c) || {}).name || ''; };
+  var wrap = tableOf(['نوع سند', 'شماره سند', 'تاریخ', 'حساب', 'پروژه', 'شرح', 'بدهکار', 'بستانکار'], function (tb) {
+    rows.forEach(function (r) {
+      td += r.dr; tc += r.cr;
+      var tr = h('tr');
+      [r.desc.split(' ')[0], r.doc, r.date || '', r.code + ' ' + an(r.code), r.proj, r.desc].forEach(function (x) { tr.appendChild(h('td', {text: x})); });
+      tr.appendChild(cell(r.dr)); tr.appendChild(cell(r.cr)); tb.appendChild(tr);
+    });
+    var ft = h('tr'); ft.appendChild(h('td', {text: 'جمع'}));
+    for (var i = 0; i < 5; i++) ft.appendChild(h('td'));
+    ft.appendChild(cell(td)); ft.appendChild(cell(tc)); tb.appendChild(ft);
+  });
+  if (!rows.length) wrap.appendChild(h('div', {'class': 'empty', text: 'صورت‌وضعیت یا پرداختی ثبت نشده.'}));
+  var f = document.createDocumentFragment();
+  f.appendChild(h('div', {'class': 'note', text: 'اسناد حسابداری خودکار هر صورت‌وضعیت و پرداخت؛ فقط خواندنی است. اصلاح را در برگه‌های صورت‌وضعیت یا پرداخت‌ها انجام دهید. کنترل توازن: ' + (Math.round(td - tc) === 0 ? 'متوازن' : 'نامتوازن')}));
+  f.appendChild(wrap);
+  return f;
+}
+function renderCard() {
+  var no = S.cardc || '', f = document.createDocumentFragment();
+  f.appendChild(h('div', {'class': 'bar'}, [h('label', {text: 'شماره قرارداد'}), mkSel('cardc', codes(S.contracts, 'no'), 'قرارداد', null, 'انتخاب قرارداد')]));
+  var c = one(S.contracts, 'no', no);
+  if (!c) { f.appendChild(h('div', {'class': 'empty', text: 'یک قرارداد انتخاب کنید.'})); return f; }
+  var r = cstat(c), k = one(S.contractors, 'code', c.contractor), vat = 0, oth = 0, rec = 0;
+  by(S.statements, 'contract', no).forEach(function (x) { var y = stmt(x); vat += y.vat; oth += y.ret + y.ins + y.tax + y.oth; rec += y.pp; });
+  var pre = N(c.amount) * N(c.pp) / 100;
+  var rows = [['پیمانکار', k ? k.name : c.contractor, 't'], ['موضوع', c.subject, 't'], ['پروژه', c.project, 't'], ['مبلغ قرارداد', N(c.amount)], ['مبلغ پیش‌پرداخت', pre],
+    ['جمع کارکرد ناخالص', r.gross], ['درصد پیشرفت مالی', r.prog, 'p'], ['جمع ارزش افزوده', vat], ['جمع کسورات (بدون استهلاک پیش‌پرداخت)', oth],
+    ['جمع استهلاک پیش‌پرداخت', rec], ['خالص بستانکاری پیمانکار', r.owed], ['جمع پرداختی', r.paid], ['مانده بدهی', r.debt],
+    ['حسن انجام کار نگهداری‌شده', r.ret], ['پیش‌پرداخت مستهلک‌نشده', pre - rec]];
+  f.appendChild(tableOf(['مورد', 'مقدار'], function (tb) {
+    rows.forEach(function (x) { var tr = h('tr'); tr.appendChild(h('td', {text: x[0]})); tr.appendChild(cell(x[1], x[2])); tb.appendChild(tr); });
+  }));
+  return f;
+}
+function renderCS() {
+  var ct = S.cstc || '', cn = S.cstn || '', f = document.createDocumentFragment();
+  var kn = function (o) { return (one(S.contractors, 'code', o) || {}).name || ''; };
+  f.appendChild(h('div', {'class': 'bar'}, [h('label', {text: 'پیمانکار'}), mkSel('cstc', codes(S.contractors, 'code'), 'پیمانکار', kn, 'انتخاب پیمانکار'),
+    h('label', {text: 'قرارداد (اختیاری)'}), mkSel('cstn', codes(S.contracts, 'no'), 'قرارداد', null, 'همه')]));
+  if (!ct) { f.appendChild(h('div', {'class': 'empty', text: 'یک پیمانکار انتخاب کنید.'})); return f; }
+  var mine = function (no) { var c = one(S.contracts, 'no', no); return !!c && c.contractor === ct && (!cn || no === cn); };
+  var ls = [];
+  S.statements.forEach(function (s) {
+    if (!mine(s.contract)) return;
+    var y = stmt(s);
+    ls.push({t: 'صورت‌وضعیت', date: s.date, no: s.contract, d: 'شماره ' + (s.no || ''), g: y.g, v: y.vat, k: y.ret + y.ins + y.tax + y.oth, cr: y.owed, dr: 0});
+  });
+  S.payments.forEach(function (p) {
+    if (!mine(p.contract)) return;
+    ls.push({t: 'پرداخت', date: p.date, no: p.contract, d: (p.type || '') + ' ' + (p.ref || ''), g: 0, v: 0, k: 0, cr: 0, dr: N(p.amount)});
+  });
+  var bal = 0, T = [0, 0, 0, 0, 0];
+  var wrap = tableOf(['نوع', 'تاریخ', 'قرارداد', 'شرح', 'جمع ناخالص', 'ارزش افزوده', 'کسورات', 'بستانکار', 'بدهکار', 'مانده تجمعی'], function (tb) {
+    ls.forEach(function (l) {
+      bal += l.cr - l.dr;
+      var tr = h('tr');
+      [l.t, l.date || '', l.no, l.d].forEach(function (x) { tr.appendChild(h('td', {text: x})); });
+      [l.g, l.v, l.k, l.cr, l.dr].forEach(function (x, i) { T[i] += x; tr.appendChild(cell(x)); });
+      tr.appendChild(cell(bal)); tb.appendChild(tr);
+    });
+    var ft = h('tr'); ft.appendChild(h('td', {text: 'جمع'}));
+    for (var i = 0; i < 3; i++) ft.appendChild(h('td'));
+    T.forEach(function (x) { ft.appendChild(cell(x)); }); ft.appendChild(cell(bal)); tb.appendChild(ft);
+  });
+  if (!ls.length) wrap.appendChild(h('div', {'class': 'empty', text: 'ردیفی برای این پیمانکار پیدا نشد.'}));
+  f.appendChild(h('div', {'class': 'note', text: 'مانده مثبت = بدهی ما به پیمانکار. مبلغ بستانکاری هر صورت‌وضعیت قبل از کسر استهلاک پیش‌پرداخت است (پیش‌پرداخت جدا در پرداخت‌ها می‌آید).'}));
+  f.appendChild(wrap);
+  return f;
+}
+TABS.push(['auto', 'اسناد خودکار'], ['card', 'کارت حساب قرارداد'], ['cs', 'صورت حساب پیمانکار']);
+async function doBackup() {
+  var name = 'backup-' + new Date().toISOString().slice(0, 10) + '.json', data = JSON.stringify(S, null, 1);
+  try {
+    var dl = window.claude && claude.use ? await claude.use('downloads') : null;
+    if (dl) { await dl.save({filename: name, data: data}); return; }
+  } catch (e) {}
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([data], {type: 'application/json'})); a.download = name; a.click();
+}
+function doRestore(file) {
+  var r = new FileReader();
+  r.onload = function () {
+    try {
+      var d = JSON.parse(r.result);
+      if (!d || !Array.isArray(d.projects)) throw new Error('bad');
+      if (confirm('داده‌های فعلی با فایل پشتیبان جایگزین شود؟')) { S = ensure(d); save(); render(); }
+    } catch (e) { alert('فایل پشتیبان معتبر نیست.'); }
+  };
+  r.readAsText(file);
+}
+function backupControls() {
+  var b = h('button', {'class': 'btn ghost', text: 'دریافت پشتیبان'});
+  b.addEventListener('click', doBackup);
+  var inp = h('input', {type: 'file', accept: '.json,application/json', style: 'display:none', 'aria-label': 'فایل پشتیبان'});
+  inp.addEventListener('change', function () { if (inp.files[0]) doRestore(inp.files[0]); });
+  var r = h('button', {'class': 'btn ghost', text: 'بازیابی از فایل'});
+  r.addEventListener('click', function () { inp.click(); });
+  return [b, r, inp];
+}
+var T_AS = 'دارایی', T_LI = 'بدهی', T_EQ = 'حقوق صاحبان سهام', T_IN = 'درآمد', T_EX = 'هزینه';
+var CK_ACTIVE = 'در جریان', CK_ST = [CK_ACTIVE, 'وصول‌شده', 'برگشتی'];
+function accName(c) { return (one(S.accounts, 'code', String(c)) || {}).name || ''; }
+function ser(d) {
+  var p = String(d || '').split('/');
+  if (p.length !== 3) return null;
+  var y = +p[0], m = +p[1], dd = +p[2];
+  if (!y || !m || !dd) return null;
+  return y * 365 + (m <= 6 ? (m - 1) * 31 : 186 + (m - 7) * 30) + dd;
+}
+function chkDays(c) { var a = ser(c.due), b = ser(S.today || '1405/09/15'); return a === null || b === null ? null : a - b; }
+function chkStatus(c) {
+  if (c.status !== CK_ACTIVE) return c.status || '';
+  var d = chkDays(c);
+  return d === null ? '' : d < 0 ? 'سررسید گذشته' : d <= 7 ? 'تا 7 روز دیگر' : d <= 30 ? 'تا 30 روز دیگر' : CK_ACTIVE;
+}
+function sellerOf(no) { var c = one(S.contracts, 'no', no), k = c && one(S.contractors, 'code', c.contractor); return k ? k.name : ''; }
+function pCalc(p) {
+  var c = one(S.contracts, 'no', p.contract), r = c ? cstat(c) : {gross: 0, paid: 0};
+  var total = N(p.qty) * N(p.price), cash = total * N(p.cashPct) / 100;
+  var chk = by(S.payments, 'contract', p.contract).filter(function (x) { return x.method === METHODS[1]; }).reduce(function (a, x) { return a + N(x.amount); }, 0);
+  var exp = r.gross * N(p.cashPct) / 100;
+  return {total: total, cash: cash, chkShare: total - cash, del: r.gross, qd: N(p.price) > 0 ? r.gross / N(p.price) : 0, chkPaid: chk, cashPaid: r.paid - chk, dCash: r.paid - chk - exp, dChk: chk - (r.gross - exp)};
+}
+ENT.purchases = {title: 'قراردادهای خرید', blank: {contract: '', item: '', unit: '', qty: '', price: '', cashPct: 30, months: 2},
+  cols: [['contract', 'قرارداد', 's', function () { return codes(S.contracts, 'no'); }], ['item', 'کالا'], ['unit', 'واحد'], ['qty', 'مقدار قرارداد', 'n'], ['price', 'فی (ریال)', 'n'], ['cashPct', 'درصد نقد', 'n'], ['months', 'مدت چک (ماه)', 'n']],
+  calc: [['فروشنده', function (p) { return sellerOf(p.contract); }, 't'], ['مبلغ کل', function (p) { return pCalc(p).total; }], ['سهم نقد', function (p) { return pCalc(p).cash; }], ['سهم چک', function (p) { return pCalc(p).chkShare; }],
+         ['مبلغ تحویل‌شده', function (p) { return pCalc(p).del; }], ['مقدار تحویل‌شده', function (p) { return pCalc(p).qd; }], ['مانده مقدار', function (p) { return N(p.qty) - pCalc(p).qd; }],
+         ['نقد پرداخت‌شده', function (p) { return pCalc(p).cashPaid; }], ['چک صادرشده', function (p) { return pCalc(p).chkPaid; }], ['اختلاف نقد', function (p) { return pCalc(p).dCash; }], ['اختلاف چک', function (p) { return pCalc(p).dChk; }]]};
+ENT.checks = {title: 'چک‌های پرداختی', blank: {no: '', bank: '', amount: '', issue: '', due: '', contract: '', status: CK_ACTIVE},
+  cols: [['no', 'شماره چک'], ['bank', 'بانک'], ['amount', 'مبلغ (ریال)', 'n'], ['issue', 'تاریخ صدور'], ['due', 'تاریخ سررسید'],
+         ['contract', 'قرارداد', 's', function () { return codes(S.contracts, 'no'); }], ['status', 'وضعیت چک', 's', function () { return CK_ST; }]],
+  calc: [['فروشنده / پیمانکار', function (c) { return sellerOf(c.contract); }, 't'], ['روز مانده', function (c) { var d = chkDays(c); return d === null ? '' : d; }, 't'], ['وضعیت سررسید', chkStatus, 't']]};
+function renderChecks() {
+  var f = document.createDocumentFragment();
+  var ti = h('input', {type: 'text', style: 'width:110px', 'aria-label': 'تاریخ امروز'});
+  ti.value = S.today || ''; ti.placeholder = todayJ();
+  ti.addEventListener('change', function () { S.today = ti.value.trim(); save(); render(); });
+  f.appendChild(h('div', {'class': 'bar'}, [h('label', {text: 'تاریخ امروز (شمسی)'}), ti]));
+  var act = S.checks.filter(function (c) { return c.status === CK_ACTIVE; });
+  var sm = function (fn) { return act.filter(fn).reduce(function (a, c) { return a + N(c.amount); }, 0); };
+  var tot = sm(function () { return true; });
+  var au = autoPost(), a2 = au['2105'] || {dr: 0, cr: 0}, bal = a2.cr - a2.dr;
+  S.journal.forEach(function (j) { if (String(j.code) === '2105') bal += N(j.cr) - N(j.dr); });
+  var items = [['جمع چک‌های در جریان', tot], ['سررسید گذشته', sm(function (c) { var d = chkDays(c); return d !== null && d < 0; })],
+    ['سررسید تا 7 روز', sm(function (c) { var d = chkDays(c); return d !== null && d >= 0 && d <= 7; })], ['سررسید تا 30 روز', sm(function (c) { var d = chkDays(c); return d !== null && d >= 0 && d <= 30; })],
+    ['مانده حساب 2105 در تراز', bal], ['اختلاف (تراز − چک‌های در جریان)', bal - tot]];
+  var k = h('div', {'class': 'kpis'});
+  items.forEach(function (it, i) { k.appendChild(h('div', {'class': 'kpi' + (i === 5 && Math.round(it[1]) !== 0 ? ' debt' : '')}, [h('span', {text: it[0]}), h('b', {text: fmt(it[1])})])); });
+  f.appendChild(k); f.appendChild(renderTable('checks'));
+  f.appendChild(h('div', {'class': 'note', text: 'پرداخت با روش «چک» در برگه‌ی پرداخت‌ها به حساب 2105 می‌رود. روز سررسید سند دستی بزنید: 2105 بدهکار / 1101 بستانکار و وضعیت چک را «وصول‌شده» کنید. محاسبه‌ی روزها تقریبی است.'}));
+  return f;
+}
+function tbRows() {
+  var au = autoPost();
+  return S.accounts.map(function (ac) {
+    var a = au[ac.code] || {dr: 0, cr: 0}, dr = a.dr, cr = a.cr;
+    S.journal.forEach(function (j) { if (String(j.code) === ac.code) { dr += N(j.dr); cr += N(j.cr); } });
+    return {code: ac.code, name: ac.name, type: ac.type, net: dr - cr};
+  });
+}
+function renderBS() {
+  var rows = tbRows(), f = document.createDocumentFragment();
+  var di = h('input', {type: 'text', style: 'width:110px', 'aria-label': 'تاریخ ترازنامه'});
+  di.value = S.bsdate || '1405/09/30';
+  di.addEventListener('change', function () { S.bsdate = di.value.trim(); save(); render(); });
+  var pbtn = h('button', {'class': 'btn ghost', text: 'چاپ'}); pbtn.addEventListener('click', function () { doPrint(); });
+  f.appendChild(h('div', {'class': 'bar noprint'}, [h('label', {text: 'تاریخ ترازنامه'}), di, pbtn]));
+  var sumNet = function (type) { return rows.filter(function (r) { return r.type === type; }).reduce(function (a, r) { return a + r.net; }, 0); };
+  var profit = -sumNet(T_IN) - sumNet(T_EX);
+  var totals = {};
+  function sec(title, type, sign, extra) {
+    var list = rows.filter(function (r) { return r.type === type && Math.round(r.net) !== 0; }), tot = 0;
+    var w = tableOf(['کد', title, 'مبلغ'], function (tb) {
+      list.forEach(function (r) { var v = sign * r.net; tot += v; var tr = h('tr'); tr.appendChild(h('td', {text: r.code})); tr.appendChild(h('td', {text: r.name})); tr.appendChild(cell(v)); tb.appendChild(tr); });
+      if (extra) { tot += extra; var t2 = h('tr'); t2.appendChild(h('td')); t2.appendChild(h('td', {text: 'سود (زیان) دوره جاری (درآمدها − هزینه‌ها)'})); t2.appendChild(cell(extra)); tb.appendChild(t2); }
+      var ft = h('tr'); ft.appendChild(h('td')); ft.appendChild(h('td', {text: 'جمع ' + title})); ft.appendChild(cell(tot)); tb.appendChild(ft);
+    });
+    totals[type] = tot;
+    return w;
+  }
+  var wa = sec('دارایی‌ها', T_AS, 1, 0), wl = sec('بدهی‌ها', T_LI, -1, 0), we = sec('حقوق صاحبان سهام', T_EQ, -1, profit);
+  var rhs = totals[T_LI] + totals[T_EQ], ok = Math.round(totals[T_AS] - rhs) === 0;
+  f.appendChild(h('div', {'class': 'sheet'}, [h('h2', {text: 'ترازنامه — ' + (S.bsdate || '1405/09/30')}), wa, h('div', {style: 'height:10px'}), wl, h('div', {style: 'height:10px'}), we,
+    h('div', {'class': 'note', text: 'جمع بدهی‌ها و حقوق صاحبان سهام: ' + fmt(rhs) + ' — ' + (ok ? 'ترازنامه متوازن است' : 'ترازنامه نامتوازن است')}),
+    h('div', {'class': 'sign'}, [h('div', {text: 'تنظیم‌کننده'}), h('div', {text: 'تأییدکننده'})])]));
+  f.appendChild(h('div', {'class': 'note noprint', text: 'از روی تراز آزمایشی (اسناد دستی + خودکار)؛ فقط حساب‌های دارای مانده. بهای پیمانکاری در «کار در جریان ساخت» است و در سود و زیان نمی‌آید. گزارش مدیریتی است، نه صورت مالی رسمی.'}));
+  return f;
+}
+function renderPrint() {
+  var no = S.pdoc || '', f = document.createDocumentFragment();
+  var inp = h('input', {type: 'text', style: 'width:90px', 'aria-label': 'شماره سند'});
+  inp.value = no;
+  inp.addEventListener('change', function () { S.pdoc = inp.value.trim(); save(); render(); });
+  var pb = h('button', {'class': 'btn', text: 'چاپ سند'}); pb.addEventListener('click', function () { doPrint(); });
+  f.appendChild(h('div', {'class': 'bar noprint'}, [h('label', {text: 'شماره سند (دستی مثل 3، یا خودکار مثل ص-1 / پ-1)'}), inp, pb]));
+  var lines = autoLines().filter(function (r) { return r.doc === no; });
+  if (!lines.length) lines = S.journal.filter(function (j) { return no && String(j.doc) === no && j.code; }).map(function (j) { return {date: j.date, doc: j.doc, code: String(j.code), proj: j.project || '', desc: j.desc, dr: N(j.dr), cr: N(j.cr)}; });
+  if (!no || !lines.length) { f.appendChild(h('div', {'class': 'empty', text: no ? 'سندی با این شماره یافت نشد.' : 'شماره سند را وارد کنید.'})); return f; }
+  var td = 0, tc = 0;
+  var wrap = tableOf(['ردیف', 'کد حساب', 'نام حساب', 'شرح', 'پروژه', 'بدهکار', 'بستانکار'], function (tb) {
+    lines.forEach(function (r, i) {
+      td += r.dr; tc += r.cr;
+      var tr = h('tr');
+      [String(i + 1), r.code, accName(r.code), r.desc || '', r.proj || ''].forEach(function (x) { tr.appendChild(h('td', {text: x})); });
+      tr.appendChild(cell(r.dr)); tr.appendChild(cell(r.cr)); tb.appendChild(tr);
+    });
+    var ft = h('tr'); ft.appendChild(h('td', {text: 'جمع'}));
+    for (var i = 0; i < 4; i++) ft.appendChild(h('td'));
+    ft.appendChild(cell(td)); ft.appendChild(cell(tc)); tb.appendChild(ft);
+  });
+  f.appendChild(h('div', {'class': 'sheet'}, [h('h2', {text: 'سند حسابداری'}),
+    h('div', {'class': 'meta'}, [h('span', {text: 'شماره سند: ' + no}), h('span', {text: 'تاریخ: ' + (lines[0].date || '')})]),
+    h('div', {style: 'margin-bottom:8px', text: 'شرح: ' + (lines[0].desc || '')}), wrap,
+    h('div', {'class': 'note', text: Math.round(td - tc) === 0 ? 'سند متوازن است' : 'سند نامتوازن است'}),
+    h('div', {'class': 'sign'}, [h('div', {text: 'تنظیم‌کننده'}), h('div', {text: 'تأییدکننده'})])]));
+  return f;
+}
+function renderJFull() {
+  var rows = S.journal.filter(function (j) { return j.code; }).map(function (j) { return {src: 'دستی', doc: j.doc, date: j.date, code: String(j.code), desc: j.desc, dr: N(j.dr), cr: N(j.cr), proj: j.project || '', pers: j.person || ''}; })
+    .concat(autoLines().map(function (r) { return {src: 'خودکار', doc: r.doc, date: r.date, code: r.code, desc: r.desc, dr: r.dr, cr: r.cr, proj: r.proj, pers: r.pers}; }));
+  var td = 0, tc = 0;
+  var wrap = tableOf(['منبع', 'سند', 'تاریخ', 'حساب', 'شرح', 'پروژه', 'شخص', 'بدهکار', 'بستانکار'], function (tb) {
+    rows.forEach(function (r) {
+      td += r.dr; tc += r.cr;
+      var tr = h('tr');
+      [r.src, r.doc || '', r.date || '', r.code + ' ' + accName(r.code), r.desc || '', r.proj, r.pers].forEach(function (x) { tr.appendChild(h('td', {text: x})); });
+      tr.appendChild(cell(r.dr)); tr.appendChild(cell(r.cr)); tb.appendChild(tr);
+    });
+    var ft = h('tr'); ft.appendChild(h('td', {text: 'جمع'}));
+    for (var i = 0; i < 6; i++) ft.appendChild(h('td'));
+    ft.appendChild(cell(td)); ft.appendChild(cell(tc)); tb.appendChild(ft);
+  });
+  if (!rows.length) wrap.appendChild(h('div', {'class': 'empty', text: 'سندی ثبت نشده.'}));
+  var f = document.createDocumentFragment();
+  f.appendChild(h('div', {'class': 'note', text: 'نمای فقط‌خواندنی: اسناد دستی دفتر روزنامه و سپس اسناد خودکار صورت‌وضعیت و پرداخت‌ها. کنترل توازن: ' + (Math.round(td - tc) === 0 ? 'متوازن' : 'نامتوازن')}));
+  f.appendChild(wrap);
+  return f;
+}
+TABS.push(['bs', 'ترازنامه'], ['print', 'پرینت سند'], ['jfull', 'دفتر روزنامه کامل'], ['purchases', 'قراردادهای خرید'], ['checks', 'چک‌های پرداختی']);
+var ORDER = [['نمای کلی', ['dash']], ['اطلاعات پایه', ['projects', 'contractors', 'persons', 'contracts', 'purchases', 'guarantees', 'assets']],
+  ['عملیات', ['statements', 'payments', 'checks']], ['حسابداری', ['journal', 'jfull', 'auto', 'print', 'ledger', 'tb', 'bs', 'accounts']],
+  ['گزارش‌ها', ['pl', 'adj', 'card', 'cs']]];
+var GRP = {};
+ORDER.forEach(function (g) { g[1].forEach(function (k) { GRP[k] = g[0]; }); });
+function sortedTabs() {
+  var out = [];
+  ORDER.forEach(function (g) { g[1].forEach(function (k) { var t = TABS.filter(function (x) { return x[0] === k; })[0]; if (t) out.push(t); }); });
+  TABS.forEach(function (t) { if (!GRP[t[0]]) { GRP[t[0]] = 'سایر'; out.push(t); } });
+  return out;
+}
+var ICONS = {home: 'M3 11l9-8 9 8M5 10v10h14V10', folder: 'M3 6h6l2 2h10v11H3z', users: 'M16 8a4 4 0 1 0-8 0 4 4 0 0 0 8 0M4 21c0-4 4-6 8-6s8 2 8 6', file: 'M6 3h8l4 4v14H6zM14 3v4h4', cash: 'M3 7h18v12H3zM3 7l3-3h12l3 3M16 13h3',
+  book: 'M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2zM5 18a2 2 0 0 1 2-2h12', scale: 'M12 4v16M5 8h14M5 8l-2 6h4zM19 8l-2 6h4z', list: 'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01', chart: 'M4 20V10M10 20V4M16 20v-8M22 20H2', tool: 'M14 6l4 4-9 9H5v-4z'};
+var TABICON = {dash: 'home', projects: 'folder', contractors: 'users', persons: 'users', contracts: 'file', purchases: 'folder', guarantees: 'file', assets: 'tool', statements: 'file', payments: 'cash', checks: 'cash',
+  journal: 'book', jfull: 'book', auto: 'book', print: 'file', ledger: 'book', tb: 'scale', bs: 'scale', accounts: 'list', pl: 'chart', adj: 'chart', card: 'chart', cs: 'chart'};
+function navIcon(k) {
+  var ns = 'http://www.w3.org/2000/svg', s = document.createElementNS(ns, 'svg'), p = document.createElementNS(ns, 'path');
+  s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('fill', 'none'); s.setAttribute('stroke', 'currentColor');
+  s.setAttribute('stroke-width', '1.7'); s.setAttribute('stroke-linecap', 'round'); s.setAttribute('stroke-linejoin', 'round');
+  s.setAttribute('aria-hidden', 'true'); p.setAttribute('d', ICONS[TABICON[k] || 'file']); s.appendChild(p);
+  return s;
+}
+function mkAppbar() {
+  var bar = h('div', {'class': 'appbar', id: 'appbar'});
+  var mb = h('button', {'aria-label': 'منو', text: '☰'});
+  mb.addEventListener('click', function () { document.body.classList.toggle('nav-open'); });
+  bar.appendChild(mb); bar.appendChild(h('span', {id: 'apptitle'}));
+  document.body.insertBefore(bar, document.querySelector('header'));
+  var ov = h('div', {id: 'ov'});
+  ov.addEventListener('click', function () { document.body.classList.remove('nav-open'); });
+  document.body.appendChild(ov);
+  document.querySelector('header h1').insertAdjacentElement('afterend', h('div', {'class': 'sub', text: 'مدیریت مالی پروژه‌ها و پیمانکاران'}));
+}
+function todayJ() {
+  var n = new Date(), gy = n.getFullYear(), gm = n.getMonth() + 1, gd = n.getDate();
+  var gdm = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334], gy2 = gm > 2 ? gy + 1 : gy;
+  var days = 355666 + 365 * gy + Math.floor((gy2 + 3) / 4) - Math.floor((gy2 + 99) / 100) + Math.floor((gy2 + 399) / 400) + gd + gdm[gm - 1];
+  var jy = -1595 + 33 * Math.floor(days / 12053); days %= 12053;
+  jy += 4 * Math.floor(days / 1461); days %= 1461;
+  if (days > 365) { jy += Math.floor((days - 1) / 365); days = (days - 1) % 365; }
+  var jm = days < 186 ? 1 + Math.floor(days / 31) : 7 + Math.floor((days - 186) / 30), jd = days < 186 ? 1 + days % 31 : 1 + (days - 186) % 30;
+  return jy + '/' + (jm < 10 ? '0' : '') + jm + '/' + (jd < 10 ? '0' : '') + jd;
+}
+function effToday() { return S.today ? S.today : todayJ(); }
+function thr() { return S.thr === undefined || S.thr === '' ? 3 : N(S.thr); }
+function ser(d) {
+  var p = String(d || '').split('/');
+  if (p.length !== 3) return null;
+  var y = +p[0], m = +p[1], dd = +p[2];
+  if (!y || !m || !dd) return null;
+  return 365 * (y - 1) + Math.floor((8 * (y - 1) + 29) / 33) + (m <= 6 ? (m - 1) * 31 : 186 + (m - 7) * 30) + dd;
+}
+function chkDays(c) { var a = ser(c.due), b = ser(effToday()); return a === null || b === null ? null : a - b; }
+function chkStatus(c) {
+  if (c.status !== CK_ACTIVE) return c.status || '';
+  var d = chkDays(c);
+  return d === null ? '' : d < 0 ? 'سررسید گذشته' : d <= thr() ? 'نزدیک سررسید' : d <= 30 ? 'تا 30 روز دیگر' : CK_ACTIVE;
+}
+function checksDue(arr) {
+  return arr.filter(function (c) { var d = chkDays(c); return c.status === CK_ACTIVE && d !== null && d <= thr(); })
+    .sort(function (a, b) { return chkDays(a) - chkDays(b); });
+}
+ENT.recv = {title: 'چک‌های دریافتی', blank: {no: '', bank: '', amount: '', issue: '', due: '', project: '', status: CK_ACTIVE},
+  cols: [['no', 'شماره چک'], ['bank', 'بانک'], ['amount', 'مبلغ (ریال)', 'n'], ['issue', 'تاریخ صدور'], ['due', 'تاریخ سررسید'],
+         ['project', 'پروژه', 's', function () { return codes(S.projects, 'code'); }], ['status', 'وضعیت چک', 's', function () { return CK_ST; }]],
+  calc: [['کارفرما / پرداخت‌کننده', function (c) { var p = one(S.projects, 'code', c.project); return p ? (p.client || p.name || '') : ''; }, 't'],
+         ['روز مانده', function (c) { var d = chkDays(c); return d === null ? '' : d; }, 't'], ['وضعیت سررسید', chkStatus, 't']]};
+function renderRecv() {
+  var f = document.createDocumentFragment();
+  var act = S.recv.filter(function (c) { return c.status === CK_ACTIVE; });
+  var sm = function (fn) { return act.filter(fn).reduce(function (a, c) { return a + N(c.amount); }, 0); };
+  var items = [['جمع چک‌های در جریان', sm(function () { return true; })], ['سررسید گذشته', sm(function (c) { var d = chkDays(c); return d !== null && d < 0; })],
+    ['نزدیک سررسید (طبق آستانه هشدار)', sm(function (c) { var d = chkDays(c); return d !== null && d >= 0 && d <= thr(); })]];
+  var k = h('div', {'class': 'kpis'});
+  items.forEach(function (it) { k.appendChild(h('div', {'class': 'kpi'}, [h('span', {text: it[0]}), h('b', {text: fmt(it[1])})])); });
+  f.appendChild(k); f.appendChild(renderTable('recv'));
+  f.appendChild(h('div', {'class': 'note', text: 'این برگه فقط پیگیری سررسید است؛ ثبت حسابداری چک دریافتی (مثلاً 1106) را دستی در دفتر روزنامه بزنید. تاریخ‌ها با ارقام انگلیسی.'}));
+  return f;
+}
+function renderHome() {
+  var f = document.createDocumentFragment();
+  var ti = h('input', {type: 'text', style: 'width:110px', 'aria-label': 'تاریخ دستی'});
+  ti.value = S.today || ''; ti.placeholder = todayJ();
+  ti.addEventListener('change', function () { S.today = ti.value.trim(); save(); render(); });
+  var th = h('input', {type: 'number', style: 'width:70px', 'aria-label': 'آستانه هشدار'});
+  th.value = thr();
+  th.addEventListener('change', function () { S.thr = th.value === '' ? '' : N(th.value); save(); render(); });
+  f.appendChild(h('div', {'class': 'bar'}, [h('label', {text: 'تاریخ امروز (خودکار: ' + todayJ() + ')، تاریخ دستی اختیاری'}), ti,
+    h('label', {text: 'هشدار چند روز مانده به سررسید'}), th]));
+  function part(title, arr, party) {
+    var due = checksDue(arr), tot = due.reduce(function (a, c) { return a + N(c.amount); }, 0);
+    f.appendChild(h('div', {'class': 'banner ' + (due.length ? 'warn' : 'ok'), text: due.length ? '⚠ ' + title + ': ' + due.length + ' چک تا ' + thr() + ' روز دیگر سررسید دارد یا سررسیدش گذشته (جمع ' + fmt(tot) + ' ریال)' : title + ': هشداری وجود ندارد'}));
+    if (due.length) f.appendChild(tableOf(['شماره چک', 'طرف حساب', 'مبلغ', 'سررسید', 'روز مانده', 'وضعیت'], function (tb) {
+      due.forEach(function (c) {
+        var d = chkDays(c), tr = h('tr');
+        [c.no, party(c), null, c.due, exactText(c), chkStatus(c)].forEach(function (x, i) { if (i === 2) tr.appendChild(cell(N(c.amount))); else { var td = h('td', {text: x || ''}); if (d < 0) td.className = 'neg'; tr.appendChild(td); } });
+        tb.appendChild(tr);
+      });
+    }));
+    f.appendChild(h('div', {style: 'height:10px'}));
+  }
+  part('چک‌های پرداختی', S.checks, function (c) { return sellerOf(c.contract); });
+  part('چک‌های دریافتی', S.recv, function (c) { var p = one(S.projects, 'code', c.project); return p ? (p.client || p.name || '') : ''; });
+  var grid = h('div', {'class': 'kpis', style: 'margin-top:16px'});
+  ORDER.forEach(function (g) {
+    var box = h('div', {'class': 'kpi'}, [h('span', {text: g[0]})]);
+    g[1].forEach(function (k) {
+      if (k === 'home') return;
+      var t = TABS.filter(function (x) { return x[0] === k; })[0];
+      if (!t) return;
+      var b = h('button', {'class': 'btn ghost', style: 'margin:6px 0 0 6px', text: t[1]});
+      b.addEventListener('click', function () { S.tab = k; save(); render(); });
+      box.appendChild(b);
+    });
+    grid.appendChild(box);
+  });
+  f.appendChild(h('div', {'class': 'note', text: 'فهرست بخش‌ها (با کلیک وارد شوید):'}));
+  f.appendChild(grid);
+  return f;
+}
+ORDER[0][1].unshift('home'); ORDER[2][1].push('recv'); GRP.home = ORDER[0][0]; GRP.recv = ORDER[2][0];
+TABICON.home = 'home'; TABICON.recv = 'cash';
+TABS.push(['home', 'صفحه اصلی و هشدار'], ['recv', 'چک‌های دریافتی']);
+var DEFAULT_ROLES = ROLES.slice();
+function renderSettings() {
+  var f = document.createDocumentFragment();
+  var inp = h('input', {type: 'text', style: 'width:220px', 'aria-label': 'کارکرد جدید', placeholder: 'کارکرد جدید'});
+  var add = h('button', {'class': 'btn', text: 'افزودن'});
+  add.addEventListener('click', function () {
+    var v = inp.value.trim();
+    if (!v) return;
+    if (S.roles.length >= 50) { alert('حداکثر 50 کارکرد مجاز است.'); return; }
+    if (S.roles.indexOf(v) >= 0) { alert('این کارکرد قبلاً وجود دارد.'); return; }
+    S.roles.push(v); save(); render();
+  });
+  f.appendChild(h('div', {'class': 'bar'}, [inp, add, h('b', {text: S.roles.length + ' / 50'})]));
+  var wrap = tableOf(['ردیف', 'کارکرد', ''], function (tb) {
+    S.roles.forEach(function (r, i) {
+      var tr = h('tr'), td = h('td'), e = h('input', {type: 'text', 'aria-label': 'کارکرد'});
+      e.value = r;
+      e.addEventListener('change', function () {
+        var nv = e.value.trim();
+        if (!nv || S.roles.indexOf(nv) >= 0) { render(); return; }
+        S.persons.forEach(function (p) { ['r1', 'r2', 'r3'].forEach(function (k) { if (p[k] === r) p[k] = nv; }); });
+        S.roles[i] = nv; save(); render();
+      });
+      tr.appendChild(h('td', {text: String(i + 1)})); td.appendChild(e); tr.appendChild(td);
+      var d = h('button', {'class': 'del', 'aria-label': 'حذف', text: '×'});
+      d.addEventListener('click', function () { if (confirm('این کارکرد از فهرست حذف شود؟')) { S.roles.splice(i, 1); save(); render(); } });
+      tr.appendChild(h('td', {}, [d])); tb.appendChild(tr);
+    });
+  });
+  f.appendChild(wrap);
+  f.appendChild(h('div', {'class': 'note', text: 'کارکردهای اشخاص (حداکثر 50 مورد). با تغییر نام یک کارکرد، در اشخاص قبلی هم اصلاح می‌شود. اگر کارکردی را حذف کنید، اشخاصی که آن را داشته‌اند مقدارش را نگه می‌دارند.'}));
+  return f;
+}
+ORDER.push(['تنظیمات', ['settings']]); GRP.settings = ORDER[ORDER.length - 1][0];
+TABICON.settings = 'list';
+TABS.push(['settings', 'تنظیمات و کارکردها']);
+function toast(msg) {
+  var t = h('div', {'class': 'banner ok noprint', style: 'position:fixed;bottom:18px;right:18px;left:18px;max-width:560px;margin:0 auto;z-index:60;background:var(--surface)', text: msg});
+  document.body.appendChild(t);
+  setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 9000);
+}
+async function exportPrintable() {
+  var el = document.querySelector('.sheet');
+  if (!el) return;
+  var css = 'body{font:14px/1.7 Tahoma,Arial,sans-serif;color:#000;margin:0;padding:14mm}h2{text-align:center;border-bottom:2px solid #b08d4c;padding-bottom:8px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #999;padding:5px 7px;text-align:right}th{background:#eee}.meta{display:flex;justify-content:space-between;font-weight:600;margin-bottom:6px}.sign{display:flex;justify-content:space-between;margin-top:70px}.sign div{width:190px;border-top:1px solid #000;padding-top:4px;text-align:center}.note{font-size:12px;color:#444;margin:10px 0}.pg{display:none}.neg{color:#a00}@page{size:A4 portrait;margin:14mm}';
+  var title = (el.querySelector('h2') || {}).textContent || 'document';
+  var html = '<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><title>' + title + '</title><style>' + css + '</style></head><body>' + el.outerHTML + '<script>window.onload=function(){setTimeout(function(){window.print()},300)}<\/script></body></html>';
+  var name = 'print-' + new Date().toISOString().slice(0, 10) + '.html';
+  try {
+    var dl = window.claude && claude.use ? await claude.use('downloads') : null;
+    if (dl) { await dl.save({filename: name, data: html}); toast('چاپ مستقیم در این نمایش مجاز نبود. فایل قابل چاپ ذخیره شد؛ آن را باز کنید تا صفحه‌ی چاپ باز شود.'); return; }
+  } catch (e) {}
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html], {type: 'text/html'})); a.download = name; a.click();
+  toast('فایل قابل چاپ دانلود شد؛ آن را باز کنید تا صفحه‌ی چاپ باز شود.');
+}
+function doPrint() {
+  var fired = false, onB = function () { fired = true; };
+  window.addEventListener('beforeprint', onB);
+  try { window.print(); } catch (e) {}
+  setTimeout(function () { window.removeEventListener('beforeprint', onB); if (!fired) exportPrintable(); }, 500);
+}
+function dateKey(d) {
+  var p = String(d || '').split('/');
+  if (p.length !== 3 || !+p[0] || !+p[1] || !+p[2]) return 99999999;
+  return +p[0] * 10000 + +p[1] * 100 + +p[2];
+}
+function renderJFull() {
+  var rows = S.journal.filter(function (j) { return j.code; }).map(function (j) { return {src: 'دستی', doc: j.doc, date: j.date, code: String(j.code), desc: j.desc, dr: N(j.dr), cr: N(j.cr), proj: j.project || '', pers: j.person || ''}; })
+    .concat(autoLines().map(function (r) { return {src: 'خودکار', doc: r.doc, date: r.date, code: r.code, desc: r.desc, dr: r.dr, cr: r.cr, proj: r.proj, pers: r.pers}; }));
+  rows.forEach(function (r, i) { r.k = dateKey(r.date); r.i = i; });
+  rows.sort(function (a, b) { return a.k - b.k || a.i - b.i; });
+  var td = 0, tc = 0;
+  var wrap = tableOf(['منبع', 'سند', 'تاریخ', 'حساب', 'شرح', 'پروژه', 'شخص', 'بدهکار', 'بستانکار'], function (tb) {
+    rows.forEach(function (r) {
+      td += r.dr; tc += r.cr;
+      var tr = h('tr');
+      [r.src, r.doc || '', r.date || '', r.code + ' ' + accName(r.code), r.desc || '', r.proj, r.pers].forEach(function (x) { tr.appendChild(h('td', {text: x})); });
+      tr.appendChild(cell(r.dr)); tr.appendChild(cell(r.cr)); tb.appendChild(tr);
+    });
+    var ft = h('tr'); ft.appendChild(h('td', {text: 'جمع'}));
+    for (var i = 0; i < 6; i++) ft.appendChild(h('td'));
+    ft.appendChild(cell(td)); ft.appendChild(cell(tc)); tb.appendChild(ft);
+  });
+  if (!rows.length) wrap.appendChild(h('div', {'class': 'empty', text: 'سندی ثبت نشده.'}));
+  var f = document.createDocumentFragment();
+  f.appendChild(h('div', {'class': 'note', text: 'نمای فقط‌خواندنی: همه‌ی اسناد دستی و خودکار به ترتیب تاریخ (در تاریخ یکسان اول دستی، بعد خودکار). اسناد بدون تاریخ معتبر (مثل 1405/09/10) آخر لیست می‌آیند. کنترل توازن: ' + (Math.round(td - tc) === 0 ? 'متوازن' : 'نامتوازن')}));
+  f.appendChild(wrap);
+  return f;
+}
+function dateKey(d) {
+  var p = String(d || '').split('/');
+  if (p.length !== 3 || !(+p[0]) || !(+p[1]) || !(+p[2])) return 99999999;
+  return +p[0] * 10000 + +p[1] * 100 + +p[2];
+}
+function renderJFull() {
+  var rows = S.journal.filter(function (j) { return j.code; }).map(function (j) { return {src: 'دستی', doc: j.doc, date: j.date, code: String(j.code), desc: j.desc, dr: N(j.dr), cr: N(j.cr), proj: j.project || '', pers: j.person || ''}; })
+    .concat(autoLines().map(function (r) { return {src: 'خودکار', doc: r.doc, date: r.date, code: r.code, desc: r.desc, dr: r.dr, cr: r.cr, proj: r.proj, pers: r.pers}; }));
+  rows.forEach(function (r, i) { r.k = dateKey(r.date); r.i = i; });
+  rows.sort(function (a, b) { return a.k - b.k || a.i - b.i; });
+  var td = 0, tc = 0;
+  var wrap = tableOf(['منبع', 'سند', 'تاریخ', 'حساب', 'شرح', 'پروژه', 'شخص', 'بدهکار', 'بستانکار'], function (tb) {
+    rows.forEach(function (r) {
+      td += r.dr; tc += r.cr;
+      var tr = h('tr');
+      [r.src, r.doc || '', r.date || '', r.code + ' ' + accName(r.code), r.desc || '', r.proj, r.pers].forEach(function (x) { tr.appendChild(h('td', {text: x})); });
+      tr.appendChild(cell(r.dr)); tr.appendChild(cell(r.cr)); tb.appendChild(tr);
+    });
+    var ft = h('tr'); ft.appendChild(h('td', {text: 'جمع'}));
+    for (var i = 0; i < 6; i++) ft.appendChild(h('td'));
+    ft.appendChild(cell(td)); ft.appendChild(cell(tc)); tb.appendChild(ft);
+  });
+  if (!rows.length) wrap.appendChild(h('div', {'class': 'empty', text: 'سندی ثبت نشده.'}));
+  var f = document.createDocumentFragment();
+  f.appendChild(h('div', {'class': 'note', text: 'نمای فقط‌خواندنی: اسناد دستی و خودکار به ترتیب تاریخ (قدیمی به جدید)؛ در تاریخ یکسان، اسناد دستی اول می‌آیند و تاریخ نامعتبر آخر لیست است. تاریخ را به‌شکل 1405/09/10 با ارقام انگلیسی بنویسید. کنترل توازن: ' + (Math.round(td - tc) === 0 ? 'متوازن' : 'نامتوازن')}));
+  f.appendChild(wrap);
+  return f;
+}
+function contractVat(c) { return c && c.vat !== undefined && c.vat !== '' && c.vat !== null ? N(c.vat) : S.vat; }
+function stmt(s) {
+  var c = one(S.contracts, 'no', s.contract) || {};
+  var g = N(s.work) + N(s.adj), vat = g * contractVat(c) / 100;
+  var pp = g * N(c.pp) / 100, ret = g * N(c.ret) / 100, ins = g * N(c.ins) / 100, tax = g * N(c.tax) / 100, oth = N(s.other);
+  return {g: g, vat: vat, pp: pp, ret: ret, ins: ins, tax: tax, oth: oth,
+          pay: g + vat - pp - ret - ins - tax - oth, owed: g + vat - ret - ins - tax - oth};
+}
+ENT.contracts.cols.push(['vat', 'ارزش افزوده ٪ (خالی = نرخ تنظیمات)', 'n']);
+ENT.contracts.blank.vat = '';
+ENT.contracts.cols.push(['vat', 'ارزش افزوده ٪ (خالی = نرخ داشبورد)', 'n']);
+ENT.contracts.blank.vat = '';
+var J_NUM = 'شماره سند', J_DATE = 'تاریخ';
+function docNum(d) {
+  var s = '', started = false, i, c, v;
+  d = String(d || '');
+  for (i = 0; i < d.length; i++) {
+    c = d.charCodeAt(i);
+    v = c >= 48 && c <= 57 ? c - 48 : c >= 1776 && c <= 1785 ? c - 1776 : c >= 1632 && c <= 1641 ? c - 1632 : -1;
+    if (v >= 0) { s += v; started = true; } else if (started) break;
+  }
+  return s ? parseInt(s, 10) : 999999999;
+}
+function renderJFull() {
+  var rows = S.journal.filter(function (j) { return j.code; }).map(function (j) { return {auto: false, src: 'دستی', doc: j.doc, date: j.date, code: String(j.code), desc: j.desc, dr: N(j.dr), cr: N(j.cr), proj: j.project || '', pers: j.person || ''}; })
+    .concat(autoLines().map(function (r) { return {auto: true, src: 'خودکار', doc: r.doc, date: r.date, code: r.code, desc: r.desc, dr: r.dr, cr: r.cr, proj: r.proj, pers: r.pers}; }));
+  var mode = S.jsort === J_DATE ? J_DATE : J_NUM;
+  rows.forEach(function (r, i) {
+    r.i = i; r.k = dateKey(r.date); r.n = docNum(r.doc);
+    r.t = !r.auto ? 0 : (String(r.doc).charCodeAt(0) === 1589 ? 1 : 2);
+  });
+  rows.sort(function (a, b) {
+    if (mode === J_DATE) return a.k - b.k || a.i - b.i;
+    return a.n - b.n || a.t - b.t || a.i - b.i;
+  });
+  var td = 0, tc = 0;
+  var wrap = tableOf(['منبع', 'سند', 'تاریخ', 'حساب', 'شرح', 'پروژه', 'شخص', 'بدهکار', 'بستانکار'], function (tb) {
+    rows.forEach(function (r) {
+      td += r.dr; tc += r.cr;
+      var tr = h('tr');
+      [r.src, r.doc || '', r.date || '', r.code + ' ' + accName(r.code), r.desc || '', r.proj, r.pers].forEach(function (x) { tr.appendChild(h('td', {text: x})); });
+      tr.appendChild(cell(r.dr)); tr.appendChild(cell(r.cr)); tb.appendChild(tr);
+    });
+    var ft = h('tr'); ft.appendChild(h('td', {text: 'جمع'}));
+    for (var i = 0; i < 6; i++) ft.appendChild(h('td'));
+    ft.appendChild(cell(td)); ft.appendChild(cell(tc)); tb.appendChild(ft);
+  });
+  if (!rows.length) wrap.appendChild(h('div', {'class': 'empty', text: 'سندی ثبت نشده.'}));
+  var f = document.createDocumentFragment();
+  f.appendChild(h('div', {'class': 'bar'}, [h('label', {text: 'ترتیب نمایش'}), mkSel('jsort', [J_NUM, J_DATE], 'ترتیب', null, J_NUM)]));
+  f.appendChild(h('div', {'class': 'note', text: 'نمای فقط‌خواندنی اسناد دستی و خودکار. در ترتیب «شماره سند» عدد شماره ملاک است (مثلاً 1، ص-1، پ-1، 2) و با عدد یکسان، اول دستی، بعد صورت‌وضعیت و بعد پرداخت می‌آید. شماره‌های بدون عدد آخر لیست است. کنترل توازن: ' + (Math.round(td - tc) === 0 ? 'متوازن' : 'نامتوازن')}));
+  f.appendChild(wrap);
+  return f;
+}
+function docNum(d) { var m = String(d == null ? '' : d).replace(/[^0-9]/g, ''); return m ? parseInt(m, 10) : 0; }
+function renderJFull() {
+  var MAN = '\u062f\u0633\u062aی', AUT = '\u062e\u0648\u062f\u06a9\u0627\u0631', PS = '\u0635';
+  var rows = S.journal.filter(function (j) { return j.code; }).map(function (j) { return {src: MAN, doc: j.doc, date: j.date, code: String(j.code), desc: j.desc, dr: N(j.dr), cr: N(j.cr), proj: j.project || '', pers: j.person || ''}; })
+    .concat(autoLines().map(function (r) { return {src: AUT, doc: r.doc, date: r.date, code: r.code, desc: r.desc, dr: r.dr, cr: r.cr, proj: r.proj, pers: r.pers}; }));
+  var mode = S.jsort || 'doc';
+  rows.forEach(function (r, i) {
+    r.i = i; r.k = dateKey(r.date); r.n = docNum(r.doc);
+    r.g = r.src === MAN ? 0 : (String(r.doc).charAt(0) === PS ? 1 : 2);
+  });
+  rows.sort(function (a, b) {
+    return mode === 'date' ? (a.k - b.k || a.g - b.g || a.n - b.n || a.i - b.i) : (a.n - b.n || a.g - b.g || a.k - b.k || a.i - b.i);
+  });
+  var sl = h('select', {'aria-label': 'مرتب‌سازی'});
+  [['doc', 'شماره سند'], ['date', 'تاریخ']].forEach(function (o) { sl.appendChild(h('option', {value: o[0], text: o[1]})); });
+  sl.value = mode;
+  sl.addEventListener('change', function () { S.jsort = sl.value; save(); render(); });
+  var td = 0, tc = 0;
+  var wrap = tableOf(['منبع', 'سند', 'تاریخ', 'حساب', 'شرح', 'پروژه', 'شخص', 'بدهکار', 'بستانکار'], function (tb) {
+    rows.forEach(function (r) {
+      td += r.dr; tc += r.cr;
+      var tr = h('tr');
+      [r.src, r.doc || '', r.date || '', r.code + ' ' + accName(r.code), r.desc || '', r.proj, r.pers].forEach(function (x) { tr.appendChild(h('td', {text: x})); });
+      tr.appendChild(cell(r.dr)); tr.appendChild(cell(r.cr)); tb.appendChild(tr);
+    });
+    var ft = h('tr'); ft.appendChild(h('td', {text: 'جمع'}));
+    for (var i = 0; i < 6; i++) ft.appendChild(h('td'));
+    ft.appendChild(cell(td)); ft.appendChild(cell(tc)); tb.appendChild(ft);
+  });
+  if (!rows.length) wrap.appendChild(h('div', {'class': 'empty', text: 'سندی ثبت نشده.'}));
+  var f = document.createDocumentFragment();
+  f.appendChild(h('div', {'class': 'bar'}, [h('label', {text: 'مرتب‌سازی بر اساس'}), sl]));
+  f.appendChild(h('div', {'class': 'note', text: 'نمای فقط‌خواندنی. در حالت «شماره سند» عدد موجود در شماره ملاک است (مثلاً 3 از سند دستی 3، ص-3 و پ-3)؛ اگر عدد برابر باشد دستی، سپس صورت‌وضعیت (ص)، بعد پرداخت (پ) می‌آید. شماره‌گذاری دستی و خودکار جدا است؛ بنابراین ترتیب مشترک معنی حسابداری ندارد. کنترل توازن: ' + (Math.round(td - tc) === 0 ? 'متوازن' : 'نامتوازن')}));
+  f.appendChild(wrap);
+  return f;
+}
+(function () {
+  var seen = {};
+  ENT.contracts.cols = ENT.contracts.cols.filter(function (c) { if (seen[c[0]]) return false; seen[c[0]] = 1; return true; });
+  ENT.contracts.cols.filter(function (c) { return c[0] === 'vat'; })[0][1] = 'ارزش افزوده ٪ (خالی = نرخ داشبورد)';
+})();
+ENT.contracts.cols.filter(function (c) { return c[0] === 'tax'; })[0][1] = 'مالیات تکلیفی ٪';
+ENT.statements.calc[5][0] = 'مالیات تکلیفی';
+var GROUPED = ['amount', 'work', 'adj', 'other', 'dr', 'cr', 'cost', 'salvage', 'price', 'qty'];
+function toLatin(s) {
+  return String(s).replace(/[\u06f0-\u06f9]/g, function (d) { return String(d.charCodeAt(0) - 0x06f0); })
+    .replace(/[\u0660-\u0669]/g, function (d) { return String(d.charCodeAt(0) - 0x0660); }).replace(/\u066b/g, '.');
+}
+function grpRaw(v) { return toLatin(v).replace(/[^0-9.\-]/g, ''); }
+function grpFmt(v) {
+  var s = grpRaw(v);
+  if (s === '' || s === '-') return s;
+  var neg = s.charAt(0) === '-', p = s.replace(/-/g, '').split('.');
+  var ip = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return (neg ? '-' : '') + ip + (p.length > 1 ? '.' + p.slice(1).join('') : '');
+}
+function grpLive(inp) {
+  var pos = inp.selectionStart, before = toLatin(inp.value.slice(0, pos)).replace(/[^0-9.]/g, '').length;
+  var nv = grpFmt(inp.value);
+  inp.value = nv;
+  var cnt = 0, np = 0;
+  while (np < nv.length && cnt < before) { if (/[0-9.]/.test(nv.charAt(np))) cnt++; np++; }
+  try { inp.setSelectionRange(np, np); } catch (e) {}
+}
+function isLeapJ(y) { return [1, 5, 9, 13, 17, 22, 26, 30].indexOf(y % 33) >= 0; }
+function monthLenJ(y, m) { return m <= 6 ? 31 : (m <= 11 ? 30 : (isLeapJ(y) ? 30 : 29)); }
+function ymd(s) { var p = String(s || '').split('/'); return p.length === 3 && +p[0] && +p[1] && +p[2] ? [+p[0], +p[1], +p[2]] : null; }
+function exactText(c) {
+  var d = chkDays(c);
+  if (d === null) return '';
+  if (d === 0) return 'امروز سررسید';
+  var abs = Math.abs(d), txt = abs + ' روز';
+  var a = ymd(d > 0 ? effToday() : c.due), b = ymd(d > 0 ? c.due : effToday());
+  if (a && b && abs >= 30) {
+    var mo = (b[0] - a[0]) * 12 + (b[1] - a[1]) - (b[2] < a[2] ? 1 : 0);
+    var y = a[0] + Math.floor((a[1] - 1 + mo) / 12), m = (a[1] - 1 + mo) % 12 + 1, dd = Math.min(a[2], monthLenJ(y, m));
+    var rest = ser(b[0] + '/' + b[1] + '/' + b[2]) - ser(y + '/' + m + '/' + dd);
+    txt += ' (' + (mo ? mo + ' ماه' : '') + (mo && rest ? ' و ' : '') + (rest ? rest + ' روز' : '') + ')';
+  }
+  return d > 0 ? txt + ' دیگر' : txt + ' از سررسید گذشته';
+}
+ENT.checks.calc.splice(2, 0, ['مانده دقیق', exactText, 't']);
+ENT.recv.calc.splice(2, 0, ['مانده دقیق', exactText, 't']);
+function printContent() {
+  var src = document.getElementById('main'), box = h('div', {'class': 'sheet'});
+  var cur = TABS.filter(function (x) { return x[0] === S.tab; })[0];
+  box.appendChild(h('h2', {text: (S.company ? S.company + ' — ' : '') + (cur ? cur[1] : '')}));
+  box.appendChild(h('div', {'class': 'meta'}, [h('span', {text: 'تاریخ چاپ: ' + effToday()}), h('span')]));
+  var cl = src.cloneNode(true), oi = src.querySelectorAll('input, select'), ci = cl.querySelectorAll('input, select');
+  for (var i = 0; i < ci.length; i++) {
+    var o = oi[i], v = o.tagName === 'SELECT' ? (o.options[o.selectedIndex] ? o.options[o.selectedIndex].text : '') : o.value;
+    var sp = document.createElement('span'); sp.textContent = v;
+    ci[i].parentNode.replaceChild(sp, ci[i]);
+  }
+  [].slice.call(cl.querySelectorAll('.noprint, button, .del')).forEach(function (e) { if (e.parentNode) e.parentNode.removeChild(e); });
+  [].slice.call(cl.querySelectorAll('table')).forEach(function (t) {
+    var ths = t.querySelectorAll('thead th');
+    if (ths.length && ths[ths.length - 1].textContent === '') {
+      [].slice.call(t.querySelectorAll('tr')).forEach(function (tr) { if (tr.lastElementChild) tr.removeChild(tr.lastElementChild); });
+    }
+  });
+  [].slice.call(cl.querySelectorAll('.bar')).forEach(function (b) { if (!b.textContent.trim() && b.parentNode) b.parentNode.removeChild(b); });
+  while (cl.firstChild) box.appendChild(cl.firstChild);
+  box.appendChild(h('div', {'class': 'sign'}, [h('div', {text: 'تهیه‌کننده'}), h('div', {text: 'تأییدکننده'})]));
+  return box;
+}
+async function exportPrintable(el) {
+  el = el || document.querySelector('.sheet');
+  if (!el) return;
+  var cols = (el.querySelector('table') || {rows: [{cells: []}]}).rows[0].cells.length;
+  var css = 'body{font:13px/1.7 Tahoma,Arial,sans-serif;color:#000;margin:0;padding:12mm}h2{text-align:center;border-bottom:2px solid #b08d4c;padding-bottom:8px}table{border-collapse:collapse;width:100%;font-size:11px;margin-bottom:10px}th,td{border:1px solid #999;padding:3px 5px;text-align:right}th{background:#eee}.meta{display:flex;justify-content:space-between;font-weight:600;margin-bottom:6px}.sign{display:flex;justify-content:space-between;margin-top:60px}.sign div{width:190px;border-top:1px solid #000;padding-top:4px;text-align:center}.note{font-size:12px;color:#444;margin:8px 0}.pg{display:none}.neg{color:#a00}.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}.kpi{border:1px solid #999;padding:6px}.kpi span{display:block;font-size:11px}.banner{border:1px solid #999;padding:8px;margin-bottom:8px}@page{size:A4 ' + (cols > 8 ? 'landscape' : 'portrait') + ';margin:12mm}';
+  var title = (el.querySelector('h2') || {}).textContent || 'report';
+  var html = '<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><title>' + title + '</title><style>' + css + '</style></head><body>' + el.outerHTML + '<script>window.onload=function(){setTimeout(function(){window.print()},300)}<\/script></body></html>';
+  var name = 'report-' + new Date().toISOString().slice(0, 10) + '.html';
+  try {
+    var dl = window.claude && claude.use ? await claude.use('downloads') : null;
+    if (dl) { await dl.save({filename: name, data: html}); toast('چاپ مستقیم در این نمایش مجاز نبود. فایل قابل چاپ ذخیره شد؛ آن را باز کنید تا صفحه‌ی چاپ باز شود.'); return; }
+  } catch (e) {}
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html], {type: 'text/html'})); a.download = name; a.click();
+  toast('فایل قابل چاپ دانلود شد؛ آن را باز کنید تا صفحه‌ی چاپ باز شود.');
+}
+function printReport() {
+  var box = printContent(), pa = document.getElementById('pa');
+  if (!pa) { pa = h('div', {id: 'pa'}); document.body.appendChild(pa); }
+  pa.textContent = ''; pa.appendChild(box);
+  var cols = (box.querySelector('table') || {rows: [{cells: []}]}).rows[0].cells.length;
+  var st = document.getElementById('pgs');
+  if (!st) { st = h('style', {id: 'pgs'}); document.head.appendChild(st); }
+  st.textContent = '@media print{@page{size:A4 ' + (cols > 8 ? 'landscape' : 'portrait') + ';margin:12mm}}';
+  document.body.classList.add('pr');
+  var fired = false, onB = function () { fired = true; }, onA = function () { document.body.classList.remove('pr'); window.removeEventListener('afterprint', onA); };
+  window.addEventListener('beforeprint', onB); window.addEventListener('afterprint', onA);
+  try { window.print(); } catch (e) {}
+  setTimeout(function () {
+    window.removeEventListener('beforeprint', onB);
+    if (!fired) { document.body.classList.remove('pr'); exportPrintable(box); }
+  }, 600);
+}
+function addPrintBtn() {
+  if (S.tab === 'print' || S.tab === 'bs') return;
+  var m = document.getElementById('main');
+  var ci = h('input', {type: 'text', placeholder: 'نام شرکت (اختیاری)', style: 'width:200px', 'aria-label': 'نام شرکت'});
+  ci.value = S.company || '';
+  ci.addEventListener('change', function () { S.company = ci.value.trim(); save(); });
+  var b = h('button', {'class': 'btn ghost', text: 'چاپ گزارش'});
+  b.addEventListener('click', printReport);
+  m.insertBefore(h('div', {'class': 'bar noprint'}, [b, ci]), m.firstChild);
+}
+var _renderBase = render;
+render = function () { _renderBase(); addPrintBtn(); };
+var CTRL_T = 'انتظامی', ADJ_T = 'تعدیلی';
+var SYS_DEFAULT = {cash: '1101', prepay: '1102', vatIn: '1103', wip: '1104', payable: '2101', retention: '2102', ins: '2103', tax: '2104', notes: '2105', other: '2106'};
+var SYS_PROPOSED = {cash: '1103', prepay: '1112', vatIn: '1120', wip: '5401', payable: '2103', retention: '2112', ins: '2113', tax: '2113', notes: '2102', other: '2113'};
+var SYS_ROLES = [['cash', 'نقد و بانک (طرف پرداخت‌ها)'], ['prepay', 'پیش‌پرداخت به پیمانکاران'], ['vatIn', 'ارزش افزوده خرید'], ['wip', 'بهای صورت‌وضعیت‌ها (کار در جریان یا هزینه)'],
+  ['payable', 'پرداختنی پیمانکاران'], ['retention', 'حسن انجام کار نگهداری‌شده'], ['ins', 'بیمه پرداختنی'], ['tax', 'مالیات تکلیفی پرداختنی'],
+  ['notes', 'اسناد پرداختنی (چک پرداختی)'], ['other', 'سایر کسورات پرداختنی']];
+function sysc(k) { return (S.sys && S.sys[k]) || SYS_DEFAULT[k]; }
+function autoPost() {
+  var a = {};
+  function add(c, d, k) { a[c] = a[c] || {dr: 0, cr: 0}; a[c][d] += k; }
+  S.statements.forEach(function (s) {
+    var x = stmt(s);
+    add(sysc('wip'), 'dr', x.g); add(sysc('vatIn'), 'dr', x.vat); add(sysc('prepay'), 'cr', x.pp); add(sysc('retention'), 'cr', x.ret);
+    add(sysc('ins'), 'cr', x.ins); add(sysc('tax'), 'cr', x.tax); add(sysc('other'), 'cr', x.oth); add(sysc('payable'), 'cr', x.pay);
+  });
+  S.payments.forEach(function (p) {
+    var m = N(p.amount);
+    add(p.method === METHODS[1] ? sysc('notes') : sysc('cash'), 'cr', m);
+    add(p.type === PAY_TYPES[0] ? sysc('prepay') : p.type === PAY_TYPES[3] ? sysc('retention') : sysc('payable'), 'dr', m);
+  });
+  return a;
+}
+function autoLines() {
+  var out = [];
+  S.statements.forEach(function (s, i) {
+    var x = stmt(s), c = one(S.contracts, 'no', s.contract) || {};
+    var base = {src: 'خودکار', pers: persOf(c), date: s.date, doc: 'ص-' + (i + 1), proj: c.project || '', desc: 'صورت‌وضعیت ' + (s.no || '') + ' - ' + (s.contract || '')};
+    [[sysc('wip'), 'dr', x.g], [sysc('vatIn'), 'dr', x.vat], [sysc('prepay'), 'cr', x.pp], [sysc('retention'), 'cr', x.ret], [sysc('ins'), 'cr', x.ins], [sysc('tax'), 'cr', x.tax], [sysc('other'), 'cr', x.oth], [sysc('payable'), 'cr', x.pay]].forEach(function (r) {
+      if (r[2]) out.push(Object.assign({code: r[0], dr: r[1] === 'dr' ? r[2] : 0, cr: r[1] === 'cr' ? r[2] : 0}, base));
+    });
+  });
+  S.payments.forEach(function (p, i) {
+    var c = one(S.contracts, 'no', p.contract) || {}, m = N(p.amount);
+    var base = {src: 'خودکار', pers: persOf(c), date: p.date, doc: 'پ-' + (i + 1), proj: c.project || '', desc: 'پرداخت ' + (p.type || '') + ' - ' + (p.contract || '')};
+    var dc = p.type === PAY_TYPES[0] ? sysc('prepay') : p.type === PAY_TYPES[3] ? sysc('retention') : sysc('payable');
+    if (m) { out.push(Object.assign({code: dc, dr: m, cr: 0}, base)); out.push(Object.assign({code: p.method === METHODS[1] ? sysc('notes') : sysc('cash'), dr: 0, cr: m}, base)); }
+  });
+  return out;
+}
+function tbRows() {
+  var au = autoPost();
+  return S.accounts.map(function (ac) {
+    var a = au[ac.code] || {dr: 0, cr: 0}, dr = a.dr, cr = a.cr;
+    S.journal.forEach(function (j) { if (String(j.code) === ac.code) { dr += N(j.dr); cr += N(j.cr); } });
+    return {code: ac.code, name: ac.name, type: ac.type === ADJ_T ? T_EQ : ac.type, net: dr - cr};
+  });
+}
+function renderChecks() {
+  var f = document.createDocumentFragment();
+  var ti = h('input', {type: 'text', style: 'width:110px', 'aria-label': 'تاریخ امروز'});
+  ti.value = S.today || ''; ti.placeholder = todayJ();
+  ti.addEventListener('change', function () { S.today = ti.value.trim(); save(); render(); });
+  f.appendChild(h('div', {'class': 'bar'}, [h('label', {text: 'تاریخ امروز (شمسی)'}), ti]));
+  var act = S.checks.filter(function (c) { return c.status === CK_ACTIVE; });
+  var sm = function (fn) { return act.filter(fn).reduce(function (a, c) { return a + N(c.amount); }, 0); };
+  var tot = sm(function () { return true; });
+  var au = autoPost(), nk = sysc('notes'), a2 = au[nk] || {dr: 0, cr: 0}, bal = a2.cr - a2.dr;
+  S.journal.forEach(function (j) { if (String(j.code) === nk) bal += N(j.cr) - N(j.dr); });
+  var items = [['جمع چک‌های در جریان', tot], ['سررسید گذشته', sm(function (c) { var d = chkDays(c); return d !== null && d < 0; })],
+    ['سررسید تا 7 روز', sm(function (c) { var d = chkDays(c); return d !== null && d >= 0 && d <= 7; })], ['سررسید تا 30 روز', sm(function (c) { var d = chkDays(c); return d !== null && d >= 0 && d <= 30; })],
+    ['مانده حساب اسناد پرداختنی (' + nk + ') در تراز', bal], ['اختلاف (تراز − چک‌های در جریان)', bal - tot]];
+  var k = h('div', {'class': 'kpis'});
+  items.forEach(function (it, i) { k.appendChild(h('div', {'class': 'kpi' + (i === 5 && Math.round(it[1]) !== 0 ? ' debt' : '')}, [h('span', {text: it[0]}), h('b', {text: fmt(it[1])})])); });
+  f.appendChild(k); f.appendChild(renderTable('checks'));
+  f.appendChild(h('div', {'class': 'note', text: 'پرداخت با روش «چک» در برگه‌ی پرداخت‌ها به حساب «اسناد پرداختنی» (' + nk + ') می‌رود. روز سررسید سند دستی بزنید: اسناد پرداختنی بدهکار / نقد و بانک بستانکار و وضعیت چک را «وصول‌شده» کنید.'}));
+  return f;
+}
+var LIB_TXT = '1101 صندوق;1102 تنخواه‌گردان;1103 بانک‌های ریالی;1104 بانک‌های ارزی;1105 سرمایه‌گذاری کوتاه‌مدت;1106 اسناد دریافتنی;1107 حساب‌های دریافتنی تجاری;1108 مطالبات از کارفرمایان;1109 مطالبات صورت‌وضعیت‌های تأییدشده;1110 مطالبات صورت‌وضعیت‌های تأییدنشده;1111 سپرده حسن انجام کار نزد کارفرما;1112 پیش‌پرداخت‌های پیمان;1113 پیش‌پرداخت خرید مواد;1114 پیش‌پرداخت بیمه;1115 پیش‌پرداخت اجاره;1116 موجودی مواد و مصالح;1117 موجودی قطعات و لوازم یدکی;1118 موجودی ابزار و تجهیزات مصرفی;1119 کالای در راه;1120 مالیات و عوارض ارزش افزوده خرید;1121 سایر مطالبات;'
+  + '1201 زمین;1202 ساختمان و تأسیسات;1203 ماشین‌آلات عمرانی;1204 خودروهای سنگین;1205 خودروهای سبک;1206 تجهیزات و ابزارآلات;1207 اثاثه و منصوبات;1208 تجهیزات اداری;1209 سخت‌افزار و تجهیزات رایانه‌ای;1210 دارایی‌های در جریان تکمیل;1211 استهلاک انباشته ساختمان;1212 استهلاک انباشته ماشین‌آلات;1213 استهلاک انباشته خودروها;1214 استهلاک انباشته تجهیزات;1215 دارایی نامشهود;1216 سایر دارایی‌های غیرجاری;'
+  + '2101 حساب‌های پرداختنی تجاری;2102 اسناد پرداختنی;2103 بدهی به پیمانکاران جزء;2104 بدهی به تأمین‌کنندگان مصالح;2105 حقوق پرداختنی کارکنان;2106 بیمه پرداختنی کارکنان;2107 مالیات حقوق پرداختنی;2108 مالیات و عوارض ارزش افزوده فروش;2109 مالیات عملکرد پرداختنی;2110 پیش‌دریافت از کارفرمایان;2111 علی‌الحساب دریافتی از کارفرما;2112 سپرده حسن انجام کار پیمانکاران جزء;2113 کسورات قانونی پرداختنی;2114 سود سهام پرداختنی;2115 تسهیلات مالی کوتاه‌مدت;2116 هزینه‌های پرداختنی;2117 سایر بدهی‌های جاری;2201 تسهیلات بانکی بلندمدت;2202 اسناد پرداختنی بلندمدت;2203 بدهی‌های بلندمدت اجاره;3101 سرمایه;3102 سود (زیان) انباشته;'
+  + '4101 درآمد پیمان‌های عمرانی;4102 درآمد پیمان‌های ساختمانی;4103 درآمد پیمان‌های راه‌سازی;4104 درآمد پیمان‌های تأسیساتی;4105 درآمد پیمان‌های صنعتی;4106 درآمد خاک‌برداری و خاک‌ریزی;4107 درآمد حمل‌ونقل و بارگیری;4108 درآمد اجرای عملیات اجرایی;4109 درآمد خدمات فنی و مهندسی;4110 درآمد تعدیل پیمان;4111 درآمد تغییر مقادیر و کارهای جدید;4112 سایر درآمدهای پیمانکاری;4201 درآمد فروش ضایعات;4202 درآمد اجاره ماشین‌آلات;4203 درآمد سود سپرده بانکی;4204 سود فروش دارایی ثابت;4205 سایر درآمدهای غیرعملیاتی;'
+  + '5101 سیمان;5102 شن و ماسه;5103 میلگرد و آهن‌آلات;5104 بتن آماده;5105 آسفالت;5106 آجر و بلوک;5107 گچ و سایر مصالح;5108 لوله و اتصالات;5109 کابل و تجهیزات برقی;5110 سوخت مصرفی پروژه;5111 قطعات مصرفی پروژه;5112 سایر مواد و مصالح مستقیم;5201 حقوق کارگران پروژه;5202 دستمزد کارگران روزمزد;5203 اضافه‌کاری;5204 حق مأموریت;5205 حق جذب و مزایا;5206 بیمه سهم کارفرما;5207 عیدی و پاداش;5208 سنوات کارکنان پروژه;5209 سایر مزایای کارکنان پروژه;'
+  + '5301 سوخت ماشین‌آلات;5302 روغن و روانکار;5303 تعمیرات ماشین‌آلات;5304 قطعات یدکی;5305 استهلاک ماشین‌آلات پروژه;5306 اجاره ماشین‌آلات;5307 هزینه اپراتور;5308 حمل ماشین‌آلات;5309 سایر هزینه‌های ماشین‌آلات;5401 دستمزد پیمانکاران جزء;5402 هزینه عملیات واگذارشده;5403 هزینه خدمات تخصصی;5404 هزینه تأسیسات واگذارشده;5405 سایر هزینه‌های پیمانکاران جزء;'
+  + '5501 حمل مصالح;5502 بارگیری و تخلیه;5503 آزمایشگاه و کنترل کیفیت;5504 نقشه‌برداری;5505 تجهیز کارگاه;5506 برچیدن کارگاه;5507 ایمنی و بهداشت پروژه;5508 آب و برق کارگاه;5509 اجاره محل کارگاه;5510 نگهداری و حفاظت کارگاه;5511 بیمه پروژه;5512 سایر هزینه‌های مستقیم پروژه;5601 حقوق سرپرست کارگاه;5602 حقوق مهندس ناظر و اجرایی;5603 حقوق مسئول دفتر فنی;5604 هزینه اداری کارگاه;5605 هزینه ارتباطات کارگاه;5606 هزینه ایاب و ذهاب;5607 هزینه اقامت و رفاه کارکنان;5608 سایر هزینه‌های بالاسری پروژه;'
+  + '6101 حقوق کارکنان دفتر مرکزی;6102 بیمه کارکنان دفتر مرکزی;6103 اجاره دفتر مرکزی;6104 آب، برق و گاز;6105 تلفن و اینترنت;6106 ملزومات اداری;6107 هزینه حسابداری و حسابرسی;6108 هزینه مشاوره حقوقی;6109 هزینه نرم‌افزار;6110 هزینه پذیرایی;6111 هزینه تبلیغات;6112 هزینه استهلاک اداری;6113 سایر هزینه‌های اداری;6201 سود تسهیلات بانکی;6202 کارمزد بانکی;6203 هزینه ضمانت‌نامه بانکی;6204 هزینه تأمین مالی;6205 زیان تسعیر ارز;6206 سایر هزینه‌های مالی;6301 جرائم و خسارات;6302 زیان فروش دارایی ثابت;6303 هزینه مطالبات مشکوک‌الوصول;6304 سایر هزینه‌های غیرعملیاتی;'
+  + '7101 کنترل قراردادهای منعقدشده;7102 کنترل مبلغ اولیه پیمان;7103 کنترل مبلغ الحاقیه‌ها;7104 کنترل صورت‌وضعیت‌های موقت;7105 کنترل صورت‌وضعیت‌های قطعی;7106 کنترل تعدیلات پیمان;7107 کنترل پیش‌پرداخت پیمان;7108 کنترل کسور حسن انجام کار;7109 کنترل سپرده بیمه;7110 کنترل ضمانت‌نامه‌ها;7111 کنترل تضمین پیش‌پرداخت;7112 کنترل تضمین حسن انجام کار;7113 کنترل تضمین شرکت در مناقصه;'
+  + '8101 اصلاحات اسناد حسابداری;8102 تعدیلات سنواتی;8103 اصلاح اشتباهات حسابداری;8104 برگشت هزینه‌های پروژه;8105 برگشت درآمدهای پیمان;8106 اصلاح موجودی مواد و مصالح;8107 اصلاح حساب پیمانکاران جزء';
+var TYPE_BY_DIGIT = {1: T_AS, 2: T_LI, 3: T_EQ, 4: T_IN, 5: T_EX, 6: T_EX, 7: CTRL_T, 8: ADJ_T};
+var LIB = LIB_TXT.split(';').filter(Boolean).map(function (s) { return {code: s.slice(0, 4), name: s.slice(5), type: TYPE_BY_DIGIT[s.charAt(0)]}; });
+ENT.accounts.cols[2][3] = function () { return [T_AS, T_LI, T_EQ, T_IN, T_EX, CTRL_T, ADJ_T]; };
+function renderChart() {
+  var f = document.createDocumentFragment();
+  var opts = S.accounts.map(function (a) { return a.code; });
+  var codes_ = {}; S.accounts.forEach(function (a) { codes_[a.code] = a; });
+  var orphan = SYS_ROLES.filter(function (r) { return !codes_[sysc(r[0])]; });
+  if (orphan.length) f.appendChild(h('div', {'class': 'banner warn', text: 'هشدار: برای این نقش‌ها حسابی در سرفصل‌ها نیست و تراز نامتوازن می‌شود: ' + orphan.map(function (r) { return r[1]; }).join('، ')}));
+  f.appendChild(h('div', {'class': 'note', text: 'نقش‌های سیستمی: اسناد خودکار صورت‌وضعیت‌ها و پرداخت‌ها به هر حسابی که اینجا انتخاب کنید می‌روند.'}));
+  f.appendChild(tableOf(['نقش سیستمی', 'حساب انتخابی'], function (tb) {
+    SYS_ROLES.forEach(function (r) {
+      var tr = h('tr'), td = h('td'), sel = h('select', {'aria-label': r[1]});
+      opts.forEach(function (c) { sel.appendChild(h('option', {value: c, text: c + ' - ' + accName(c)})); });
+      sel.value = sysc(r[0]);
+      sel.addEventListener('change', function () { S.sys = S.sys || {}; S.sys[r[0]] = sel.value; save(); render(); });
+      tr.appendChild(h('td', {text: r[1]})); td.appendChild(sel); tr.appendChild(td); tb.appendChild(tr);
+    });
+  }));
+  var add = h('button', {'class': 'btn', text: 'افزودن حساب‌های چارت پیشنهادی (بدون تکراری)'});
+  add.addEventListener('click', function () {
+    var n = 0;
+    LIB.forEach(function (a) { if (!codes_[a.code]) { S.accounts.push({code: a.code, name: a.name, type: a.type}); n++; } });
+    S.chartMsg = n + ' حساب اضافه شد؛ حساب‌هایی که کدشان قبلاً با حساب دیگری استفاده شده رد شدند.';
+    save(); render();
+  });
+  var armed = !!S.replArm;
+  var rep = h('button', {'class': 'btn' + (armed ? '' : ' ghost'), text: armed ? 'تأیید نهایی جایگزینی' : 'جایگزینی کامل سرفصل‌ها با چارت پیشنهادی'});
+  rep.addEventListener('click', function () {
+    if (!S.replArm) { S.replArm = true; save(); render(); return; }
+    S.accounts = LIB.map(function (a) { return {code: a.code, name: a.name, type: a.type}; });
+    S.sys = JSON.parse(JSON.stringify(SYS_PROPOSED)); S.replArm = false;
+    S.chartMsg = 'سرفصل‌ها با چارت پیشنهادی جایگزین شد و نقش‌های سیستمی به نگاشت پیشنهادی تغییر کرد.';
+    save(); render();
+  });
+  var cancel = h('button', {'class': 'btn ghost', text: 'انصراف'});
+  cancel.addEventListener('click', function () { S.replArm = false; save(); render(); });
+  var mapB = h('button', {'class': 'btn ghost', text: 'نگاشت پیشنهادی نقش‌ها برای چارت جدید'});
+  mapB.addEventListener('click', function () { S.sys = JSON.parse(JSON.stringify(SYS_PROPOSED)); save(); render(); });
+  var defB = h('button', {'class': 'btn ghost', text: 'بازگشت نقش‌ها به پیش‌فرض قدیمی'});
+  defB.addEventListener('click', function () { S.sys = null; save(); render(); });
+  f.appendChild(h('div', {'class': 'bar', style: 'margin-top:14px'}, armed ? [rep, cancel] : [add, rep, mapB, defB]));
+  if (armed) f.appendChild(h('div', {'class': 'banner warn', text: 'هشدار: جایگزینی کامل تمام سرفصل‌های فعلی را پاک می‌کند. اسناد دستی قبلی که با کدهای قدیم ثبت شده‌اند با حساب‌های دیگری تطابق می‌کنند یا از تراز حذف می‌شوند. فقط برای شروع تازه مناسب است. ابتدا پشتیبان بگیرید.'}));
+  if (S.chartMsg) f.appendChild(h('div', {'class': 'banner ok', text: S.chartMsg}));
+  f.appendChild(h('div', {'class': 'note', text: 'نگاشت پیشنهادی: بهای صورت‌وضعیت‌ها به 5401 (هزینه) می‌رود؛ یعنی دیگر دارایی «کار در جریان» ایجاد نمی‌شود و بها مستقیم هزینه می‌شود. درآمد همچنان دستی در حساب 4xxx ثبت می‌شود. استاندارد 43 (لازم‌الاجرا برای دوره‌های مالی شروع‌شده از 1404/1/1 و جایگزین استانداردهای 3، 9 و 29) روش شناسایی درآمد را تعیین می‌کند؛ این برنامه آن را خودکار اعمال نمی‌کند. روش شناسایی درآمد را با حسابدار یا حسابرس شرکت هماهنگ کنید. چارت پیشنهادی رسمی نیست (فهرست کد یکسان اجباری در ایران وجود ندارد).'}));
+  f.appendChild(tableOf(['کد', 'نام حساب (چارت پیشنهادی)', 'نوع', 'وضعیت در سرفصل‌های شما'], function (tb) {
+    LIB.forEach(function (a) {
+      var ex = codes_[a.code], st = !ex ? 'اضافه نشده' : (ex.name === a.name ? 'موجود' : 'کد تکراری: ' + ex.name);
+      var tr = h('tr');
+      [a.code, a.name, a.type, st].forEach(function (x) { tr.appendChild(h('td', {text: x})); });
+      tb.appendChild(tr);
+    });
+  }));
+  return f;
+}
+var DETAIL_TYPES = ['کارفرما', 'پروژه', 'قرارداد', 'پیمانکار جزء', 'تأمین‌کننده', 'انبار', 'مرکز هزینه', 'ماشین‌آلات', 'کارکنان', 'بانک', 'نوع مصالح'];
+var DETAIL_SEED = [[0, 'شرکت آب و فاضلاب'], [1, 'پروژه احداث ساختمان'], [2, 'قرارداد شماره 1405/12'], [3, 'شرکت مجری تأسیسات'], [4, 'فروشنده سیمان'], [5, 'انبار مرکزی'], [5, 'انبار کارگاه'], [6, 'کارگاه شماره 1'], [7, 'بیل مکانیکی شماره 1'], [8, 'پرسنل پروژه'], [9, 'بانک ملت'], [9, 'بانک ملی'], [10, 'سیمان'], [10, 'شن'], [10, 'ماسه'], [10, 'میلگرد']];
+ENT.details = {title: 'تفصیلی‌ها', blank: {type: '', code: '', name: ''},
+  cols: [['type', 'نوع تفصیلی', 's', function () { return DETAIL_TYPES; }], ['code', 'کد'], ['name', 'نام']], calc: []};
+ENT.journal.cols.push(['det', 'تفصیلی', 's', function () { return codes(S.details, 'code'); }]);
+ENT.journal.blank.det = '';
+function renderDetails() {
+  var f = document.createDocumentFragment();
+  var b = h('button', {'class': 'btn ghost', text: 'افزودن نمونه‌های پیشنهادی (کارفرما، انبار، مرکز هزینه، ماشین‌آلات، بانک و ...)'});
+  b.addEventListener('click', function () {
+    DETAIL_SEED.forEach(function (d) {
+      var nm = d[1], ty = DETAIL_TYPES[d[0]];
+      if (!S.details.some(function (x) { return x.type === ty && x.name === nm; })) S.details.push({type: ty, code: 'T' + String(S.details.length + 1).padStart(3, '0'), name: nm});
+    });
+    save(); render();
+  });
+  f.appendChild(h('div', {'class': 'bar'}, [b]));
+  f.appendChild(renderTable('details'));
+  f.appendChild(h('div', {'class': 'note', text: 'تفصیلی‌ها (مثل انبار، مرکز هزینه، ماشین‌آلات، بانک، نوع مصالح) را اینجا تعریف کنید و در دفتر روزنامه با ستون «تفصیلی» به هر ردیف سند وصل کنید.'}));
+  return f;
+}
+ORDER[ORDER.length - 1][1].push('chart', 'details'); GRP.chart = ORDER[ORDER.length - 1][0]; GRP.details = ORDER[ORDER.length - 1][0];
+TABICON.chart = 'list'; TABICON.details = 'folder';
+TABS.push(['chart', 'چارت و نقش حساب‌ها'], ['details', 'تفصیلی‌ها']);
+var _rb2 = render;
+render = function () {
+  if (!S.details) S.details = [];
+  if (S.sys === undefined) S.sys = null;
+  _rb2();
+};
+var UNIQ = {projects: 'code', contractors: 'code', persons: 'code', accounts: 'code', contracts: 'no', details: 'code', assets: 'code'};
+function optLabel(col, v) {
+  if (!v) return v;
+  var m = {project: [S.projects, 'code', 'name'], prj: [S.projects, 'code', 'name'], contractor: [S.contractors, 'code', 'name'], person: [S.persons, 'code', 'name'],
+    det: [S.details, 'code', 'name'], code: [S.accounts, 'code', 'name'], contract: [S.contracts, 'no', 'subject']}[col];
+  if (!m) return v;
+  var r = (m[0] || []).filter(function (x) { return String(x[m[1]]) === String(v); })[0];
+  return r && r[m[2]] ? v + ' - ' + r[m[2]] : v;
+}
+function dedupeCodes() {
+  var seen = {}, out = [], n = 0;
+  S.accounts.forEach(function (a) { var k = String(a.code); if (k && seen[k]) { n++; return; } seen[k] = 1; out.push(a); });
+  if (n) { S.accounts = out; save(); toast(n + ' حساب با کد تکراری حذف شد (نسخه‌ی اول نگه داشته شد).'); }
+  var warns = [];
+  Object.keys(UNIQ).forEach(function (k) {
+    var s2 = {}, d = {};
+    (S[k] || []).forEach(function (r) { var v = String(r[UNIQ[k]] || ''); if (!v) return; if (s2[v]) d[v] = 1; s2[v] = 1; });
+    var ks = Object.keys(d);
+    if (ks.length) warns.push(ENT[k].title + ': ' + ks.join('، '));
+  });
+  return warns;
+}
+function decorateCodes() {
+  var map = {};
+  [[S.projects, 'code', 'name'], [S.contractors, 'code', 'name'], [S.persons, 'code', 'name'], [S.details || [], 'code', 'name'], [S.contracts, 'no', 'subject']].forEach(function (g) {
+    g[0].forEach(function (x) { var k = String(x[g[1]] || ''); if (!k) return; map[k] = map[k] === undefined ? (x[g[2]] ? k + ' - ' + x[g[2]] : k) : null; });
+  });
+  [].slice.call(document.querySelectorAll('#main td')).forEach(function (td) {
+    if (td.children.length) return;
+    var t = td.textContent.trim(), v = map[t];
+    if (v && v !== t) td.textContent = v;
+  });
+}
+function sample() {
+  var ACT = '\u062f\u0631 \u062c\u0631\u06cc\u0627\u0646', R_CON = '\u067e\u06cc\u0645\u0627\u0646\u06a9\u0627\u0631', R_WRK = '\u06a9\u0627\u0631\u06af\u0631', R_MAS = '\u0628\u0646\u0627';
+  return {
+    vat: 10, tab: 'home', accounts: [], details: [],
+    sys: {cash: '1103', prepay: '1112', vatIn: '1120', wip: '5401', payable: '2103', retention: '2112', ins: '2113', tax: '2113', notes: '2102', other: '2113'},
+    projects: [{code: 'P-001', name: 'برج مسکونی نمونه', client: 'شرکت کارفرمای نمونه', amount: 120000000000}],
+    contractors: [{code: 'C-01', person: 'E-0003', name: 'پیمانکار سازه نمونه', nid: '10101234567', phone: '021-00000000'},
+                  {code: 'C-03', name: 'ماسه‌شویی نمونه', nid: '10105555555', phone: '021-33333333'}],
+    contracts: [{no: 'CN-001', project: 'P-001', contractor: 'C-01', subject: 'اجرای اسکلت بتنی', amount: 50000000000, pp: 10, ret: 10, ins: 5, tax: 0},
+                {no: '007/الف', project: 'P-001', contractor: 'C-03', subject: 'خرید ماسه', amount: 4800000000, pp: 0, ret: 0, ins: 0, tax: 0, vat: 0}],
+    statements: [{contract: 'CN-001', no: '1', date: '1405/07/30', work: 8000000000, adj: 200000000, other: 0},
+                 {contract: '007/الف', no: '1', date: '1405/09/10', work: 1200000000, adj: 0, other: 0}],
+    payments: [{contract: 'CN-001', date: '1405/03/01', amount: 5000000000, type: PAY_TYPES[0], method: METHODS[0], ref: 'TR-1001'},
+               {contract: '007/الف', date: '1405/09/10', amount: 360000000, type: PAY_TYPES[2], method: METHODS[2], ref: ''},
+               {contract: '007/الف', date: '1405/09/10', amount: 840000000, type: PAY_TYPES[2], method: METHODS[1], ref: '1234567'}],
+    persons: [{code: 'E-0001', name: 'علی محمدی', nid: '0012345678', r1: R_MAS, r2: '', r3: '', phone: '0912-0000001'},
+              {code: 'E-0002', name: 'حسین کریمی', nid: '0023456789', r1: R_WRK, r2: '', r3: '', phone: '0912-0000002'},
+              {code: 'E-0003', name: 'شرکت سازه نمونه', nid: '10101234567', r1: R_CON, r2: '', r3: '', phone: '021-00000000'}],
+    journal: [{doc: '1', date: '1405/01/10', code: '1103', desc: 'آورده نقدی اولیه', dr: 10000000000, cr: '', project: ''},
+              {doc: '1', date: '1405/01/10', code: '3101', desc: 'آورده نقدی اولیه', dr: '', cr: 10000000000, project: ''},
+              {doc: '2', date: '1405/09/01', code: '1103', desc: 'دریافت از کارفرما', dr: 20000000000, cr: '', project: 'P-001'},
+              {doc: '2', date: '1405/09/01', code: '4101', desc: 'درآمد پیمان عمرانی', dr: '', cr: 20000000000, project: 'P-001'},
+              {doc: '3', date: '1405/09/10', code: '5512', desc: 'خرید بیل و فرغون', dr: 100000000, cr: '', project: 'P-001'},
+              {doc: '3', date: '1405/09/10', code: '1120', desc: 'ارزش افزوده خرید ابزار', dr: 10000000, cr: '', project: 'P-001'},
+              {doc: '3', date: '1405/09/10', code: '1103', desc: 'پرداخت از بانک', dr: '', cr: 110000000, project: 'P-001'},
+              {doc: '4', date: '1405/09/20', code: '5202', desc: 'دستمزد بنا', dr: 120000000, cr: '', project: 'P-001'},
+              {doc: '4', date: '1405/09/20', code: '2105', desc: 'دستمزد بنا', dr: '', cr: 120000000, project: 'P-001', person: 'E-0001'},
+              {doc: '5', date: '1405/09/25', code: '2105', desc: 'پرداخت به بنا', dr: 80000000, cr: '', project: 'P-001', person: 'E-0001'},
+              {doc: '5', date: '1405/09/25', code: '1103', desc: 'پرداخت به بنا', dr: '', cr: 80000000, project: 'P-001'}],
+    assets: [{code: 'A-001', name: 'کانکس کارگاهی', cat: 'تأسیسات موقت کارگاهی', y: 1405, m: 6, prj: 'P-001', cost: 800000000, salvage: 0, life: 5},
+             {code: 'A-002', name: 'موتور برق', cat: 'ماشین‌آلات و تجهیزات', y: 1405, m: 7, prj: 'P-001', cost: 250000000, salvage: 0, life: 5}],
+    purchases: [{contract: '007/الف', item: 'ماسه', unit: 'تن', qty: 2000, price: 2400000, cashPct: 30, months: 2}],
+    recv: [{no: '654321', bank: 'بانک نمونه', amount: 2000000000, issue: '1405/08/20', due: '1405/10/20', project: 'P-001', status: ACT}],
+    checks: [{no: '1234567', bank: 'بانک نمونه', amount: 840000000, issue: '1405/09/10', due: '1405/11/10', contract: '007/الف', status: ACT}],
+    guarantees: [{no: 'G-100', contract: 'CN-001', type: 'حسن انجام تعهدات', bank: 'بانک نمونه', amount: 2500000000, issue: '1405/02/01', expiry: '1406/08/01', status: 'معتبر'}]
+  };
+}
+ENT.contracts.calc.unshift(['نام پروژه', function (c) { var p = one(S.projects, 'code', c.project); return p ? p.name : ''; }, 't'], ['نام پیمانکار', function (c) { var k = one(S.contractors, 'code', c.contractor); return k ? k.name : ''; }, 't']);
+ENT.statements.calc.unshift(['موضوع / پیمانکار', function (s) { var c = one(S.contracts, 'no', s.contract), k = c && one(S.contractors, 'code', c.contractor); return c ? (c.subject || '') + (k ? ' — ' + k.name : '') : ''; }, 't']);
+ENT.journal.calc.unshift(['نام پروژه', function (j) { var p = one(S.projects, 'code', j.project); return p ? p.name : ''; }, 't']);
+ENT.journal.calc.push(['نام تفصیلی', function (j) { var d = one(S.details || [], 'code', j.det); return d ? d.name : ''; }, 't']);
+ENT.assets.calc.unshift(['نام پروژه', function (a) { var p = one(S.projects, 'code', a.prj); return p ? p.name : ''; }, 't']);
+var _rc0 = renderChart;
+renderChart = function () {
+  var f = _rc0();
+  var armed = !!S.resetArm;
+  var b = h('button', {'class': 'btn' + (armed ? '' : ' ghost'), text: armed ? 'تأیید نهایی: پاک کردن همه‌ی داده‌ها' : 'شروع تازه با چارت استاندارد پیمانکاری و نمونه‌ی جدید'});
+  b.addEventListener('click', function () {
+    if (!S.resetArm) { S.resetArm = true; save(); render(); return; }
+    var keepTab = 'chart';
+    S = ensure(sample()); S.tab = keepTab; save(); render();
+  });
+  var kids = [b];
+  if (armed) { var cn = h('button', {'class': 'btn ghost', text: 'انصراف'}); cn.addEventListener('click', function () { S.resetArm = false; save(); render(); }); kids.push(cn); }
+  var box = h('div', {'class': 'bar', style: 'margin-top:14px'}, kids);
+  var wrap = document.createDocumentFragment();
+  wrap.appendChild(box);
+  if (armed) wrap.appendChild(h('div', {'class': 'banner warn', text: 'هشدار: همه‌ی داده‌ها پاک می‌شود و نمونه‌ی جدید با چارت پیمانکاری جایگزین می‌شود. ابتدا از داشبورد «دریافت پشتیبان» بگیرید.'}));
+  f.insertBefore(wrap, f.firstChild);
+  return f;
+};
+var _rb3 = render;
+render = function () {
+  if (!S.accounts || !S.accounts.length) S.accounts = LIB.map(function (a) { return {code: a.code, name: a.name, type: a.type}; });
+  var dw = dedupeCodes();
+  _rb3();
+  decorateCodes();
+  if (dw.length) { var m = document.getElementById('main'); m.insertBefore(h('div', {'class': 'banner warn', text: 'کد تکراری در: ' + dw.join(' | ')}), m.firstChild); }
+};
+function projSel(val, label) {
+  var s = h('select', {'aria-label': label});
+  [''].concat(codes(S.projects, 'code')).forEach(function (o) {
+    var nm = o ? (one(S.projects, 'code', o) || {}).name : '';
+    s.appendChild(h('option', {value: o, text: o ? (nm ? o + ' - ' + nm : o) : 'همه'}));
+  });
+  s.value = val;
+  s.addEventListener('change', function () { S.lproj = s.value; save(); render(); });
+  return s;
+}
+(function () {
+  var extra = [['3102', 'افزایش سرمایه در جریان'], ['3103', 'اندوخته قانونی'], ['3104', 'سایر اندوخته‌ها'], ['3105', 'سود (زیان) انباشته'], ['3106', 'مازاد تجدید ارزیابی دارایی‌ها'],
+    ['1122', 'دارایی قراردادی (کار انجام‌شده و صورت‌وضعیت‌نشده)'], ['2118', 'بدهی قراردادی'], ['2119', 'ذخیره قراردادهای زیان‌ده']];
+  if (LIB.some(function (a) { return a.code === '3105'; })) return;
+  LIB = LIB.filter(function (a) { return a.code !== '3102'; }).concat(extra.map(function (x) { return {code: x[0], name: x[1], type: TYPE_BY_DIGIT[x[0].charAt(0)]}; }));
+  LIB.sort(function (a, b) { return a.code < b.code ? -1 : a.code > b.code ? 1 : 0; });
+  if (!raw) { S.accounts = LIB.map(function (a) { return {code: a.code, name: a.name, type: a.type}; }); }
+})();
+function render() {
+  if (!S.roles || !S.roles.length) S.roles = DEFAULT_ROLES.slice();
+  ROLES = S.roles;
+  var nav = document.getElementById('nav'); nav.textContent = '';
+  document.body.classList.remove('nav-open');
+  if (!document.getElementById('appbar')) mkAppbar();
+  var curT = TABS.filter(function (x) { return x[0] === S.tab; })[0];
+  document.getElementById('apptitle').textContent = curT ? curT[1] : '';
+  var lastG = null;
+  sortedTabs().forEach(function (t) {
+    if (GRP[t[0]] !== lastG) { lastG = GRP[t[0]]; nav.appendChild(h('div', {'class': 'grp', text: lastG})); }
+    var b = h('button', {text: t[1], 'aria-current': String(S.tab === t[0])});
+    b.insertBefore(navIcon(t[0]), b.firstChild);
+    b.addEventListener('click', function () { S.tab = t[0]; save(); render(); });
+    nav.appendChild(b);
+  });
+  var m = document.getElementById('main'); m.textContent = '';
+  m.appendChild(S.tab === 'dash' ? renderDash() : S.tab === 'tb' ? renderTb() : S.tab === 'ledger' ? renderLedger() : S.tab === 'pl' ? renderPL() : S.tab === 'assets' ? renderAssets() : S.tab === 'adj' ? renderAdj() : S.tab === 'auto' ? renderAuto() : S.tab === 'card' ? renderCard() : S.tab === 'cs' ? renderCS() : S.tab === 'bs' ? renderBS() : S.tab === 'print' ? renderPrint() : S.tab === 'jfull' ? renderJFull() : S.tab === 'checks' ? renderChecks() : S.tab === 'home' ? renderHome() : S.tab === 'recv' ? renderRecv() : S.tab === 'settings' ? renderSettings() : S.tab === 'chart' ? renderChart() : S.tab === 'details' ? renderDetails() : renderTable(S.tab));
+}
+render();
+(async function () {
+  try {
+    if (!window.claude || !claude.use) return;
+    db = await claude.use('db');
+    if (!db) return;
+    var snap = await db.doc('ledger/state').get();
+    if (snap.exists && snap.data().json) { S = ensure(JSON.parse(snap.data().json)); render(); }
+    else save();
+  } catch (e) { db = null; }
+})();
+</script>
+</body>
+</html>
